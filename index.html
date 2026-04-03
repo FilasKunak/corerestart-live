@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoreRestart Live</title>
+  <style>
+    /* ─── Reset & Base ─────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #030712;   /* gray-950 */
+      --bg-card:   #111827;   /* gray-900 */
+      --border:    #1f2937;   /* gray-800 */
+      --text:      #f9fafb;   /* gray-50  */
+      --muted:     #9ca3af;   /* gray-400 */
+      --subtle:    #4b5563;   /* gray-600 */
+      --orange:    #f97316;
+      --orange-hv: #ea6c0a;
+      --red:       #dc2626;
+      --red-hv:    #b91c1c;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── Layout helpers ───────────────────────────────────── */
+    .center {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100svh;
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .hidden { display: none !important; }
+
+    /* ─── Countdown phase ──────────────────────────────────── */
+    #phase-countdown h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
+      font-weight: 900;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.5rem;
+    }
+
+    #phase-countdown .subtitle {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .timer {
+      display: flex;
+      align-items: flex-end;
+      gap: 0.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 2.5rem;
+    }
+
+    .timer-unit {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .timer-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 0.75rem 1.1rem;
+      min-width: 72px;
+    }
+
+    .timer-box span {
+      display: block;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 900;
+      font-variant-numeric: tabular-nums;
+      line-height: 1;
+    }
+
+    .timer-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--subtle);
+    }
+
+    .timer-sep {
+      font-size: clamp(1.5rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--border);
+      padding-bottom: 1.8rem;
+    }
+
+    .countdown-warning {
+      color: #fb923c;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .countdown-date {
+      color: var(--subtle);
+      font-size: 0.9rem;
+    }
+
+    .countdown-date strong { color: var(--muted); }
+
+    /* ─── Live phase ───────────────────────────────────────── */
+    #phase-live {
+      display: flex;
+      flex-direction: column;
+      min-height: 100svh;
+    }
+
+    .live-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .live-header h1 { font-size: 1.15rem; font-weight: 700; }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(220,38,38,0.15);
+      border: 1px solid rgba(220,38,38,0.4);
+      color: #f87171;
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 0.25rem 0.75rem;
+      border-radius: 999px;
+    }
+
+    .live-dot {
+      width: 8px; height: 8px;
+      background: var(--red);
+      border-radius: 50%;
+      animation: livePulse 1.5s ease-in-out infinite;
+    }
+
+    .live-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem;
+    }
+
+    .video-wrap {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    /* ─── Video player ─────────────────────────────────────── */
+    #player-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 0.75rem;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* Hide timeline in webkit (Chrome, Safari, Edge) */
+    video::-webkit-media-controls-timeline          { display: none !important; }
+    video::-webkit-media-controls-current-time-display { display: none !important; }
+    video::-webkit-media-controls-time-remaining-display { display: none !important; }
+
+    /* No-video placeholder */
+    #no-video {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--subtle);
+      font-size: 0.95rem;
+    }
+
+    /* ─── CTA button ───────────────────────────────────────── */
+    #cta-wrap {
+      margin-top: 1.25rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .btn-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--orange);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 0 0 0 rgba(249,115,22,0.7);
+      animation: ctaPulse 2s ease-out infinite, slideUp 0.4s ease-out;
+    }
+
+    .btn-cta:hover { background: var(--orange-hv); }
+
+    /* ─── Ended phase ──────────────────────────────────────── */
+    #phase-ended .icon { font-size: 4rem; margin-bottom: 1.5rem; }
+
+    #phase-ended h1 {
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    #phase-ended p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn-replay {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--red);
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 700;
+      padding: 1rem 2rem;
+      border-radius: 0.75rem;
+      text-decoration: none;
+      transition: background 0.2s;
+      box-shadow: 0 8px 24px rgba(220,38,38,0.3);
+    }
+
+    .btn-replay:hover { background: var(--red-hv); }
+
+    /* ─── Loading ──────────────────────────────────────────── */
+    #phase-loading p {
+      color: var(--muted);
+      font-size: 1rem;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* ─── Animations ───────────────────────────────────────── */
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.25; }
+    }
+
+    @keyframes ctaPulse {
+      0%, 100% { box-shadow: 0 0 0 0   rgba(249,115,22,0.7); }
+      70%      { box-shadow: 0 0 0 12px rgba(249,115,22,0);   }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.4; }
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── Responsive ───────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .timer { gap: 0.3rem; }
+      .timer-box { min-width: 58px; padding: 0.6rem 0.8rem; }
+      .live-header { padding: 0.75rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: loading
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-loading" class="center">
+    <p>Načítám…</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: countdown
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-countdown" class="center hidden">
+    <h1 id="stream-title-cd"></h1>
+    <p class="subtitle">Živé vysílání začíná za:</p>
+
+    <div class="timer">
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-days">00</span></div>
+        <span class="timer-label">dní</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-hours">00</span></div>
+        <span class="timer-label">hodin</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-minutes">00</span></div>
+        <span class="timer-label">minut</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-seconds">00</span></div>
+        <span class="timer-label">sekund</span>
+      </div>
+    </div>
+
+    <p id="cd-warning" class="countdown-warning hidden">
+      ⚡ Vysílání začíná brzy – zůstaňte na stránce!
+    </p>
+
+    <p class="countdown-date" id="cd-date"></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: live
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-live" class="hidden">
+    <header class="live-header">
+      <h1 id="stream-title-live"></h1>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE
+      </div>
+    </header>
+
+    <div class="live-content">
+      <div class="video-wrap">
+        <div id="player-container">
+          <video id="video" controls playsinline></video>
+          <div id="no-video">Načítám video…</div>
+        </div>
+
+        <div id="cta-wrap" class="hidden">
+          <a id="cta-btn" class="btn-cta" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: ended
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-ended" class="center hidden">
+    <div class="icon">📺</div>
+    <h1>Vysílání skončilo</h1>
+    <p>Děkujeme za sledování.</p>
+    <a id="replay-btn" class="btn-replay" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+
+  <script>
+    /* ═══════════════════════════════════════════════════════
+       KONFIGURACE – upravte před nasazením
+    ═════════════════════════════════════════════════════ */
+    const CONFIG = {
+      STREAM_START_TIME:     "2026-04-03T18:00:00Z",
+      VIDEO_URL:             "https://mcwebinare.s3.eu-central-1.amazonaws.com/Prakticky-FyzioWebinar-pro-seniory-v2.mp4",
+      CTA_URL:               "https://corerestart.cz/",
+      CTA_TEXT:              "🎁 Získat speciální nabídku",
+      CTA_APPEARS_AT_SECONDS: 1800,
+      STREAM_TITLE:          "CoreRestart Live",
+      REPLAY_URL:            "https://mamacore.cz/",
+      REPLAY_BUTTON_TEXT:    "▶ Přehrát záznam vysílání",
+    };
+
+    /* ═══════════════════════════════════════════════════════
+       FÁZE aplikace
+    ═════════════════════════════════════════════════════ */
+    const phases = ["loading", "countdown", "live", "ended"];
+
+    function showPhase(name) {
+      phases.forEach(p => {
+        const el = document.getElementById("phase-" + p);
+        if (el) el.classList.toggle("hidden", p !== name);
+      });
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       SERVEROVÝ ČAS – přibližná synchronizace
+    ═════════════════════════════════════════════════════ */
+    async function getServerTimeOffset() {
+      // Pokus o synchronizaci s /api/time (pokud existuje server)
+      // V případě selhání vrátí 0 (použije lokální čas)
+      try {
+        const before = Date.now();
+        const res = await fetch("/api/time", { signal: AbortSignal.timeout(3000) });
+        const after = Date.now();
+        const { serverTime } = await res.json();
+        return serverTime + (after - before) / 2 - after;
+      } catch {
+        return 0;
+      }
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       ODPOČET
+    ═════════════════════════════════════════════════════ */
+    function pad(n) { return String(Math.floor(n)).padStart(2, "0"); }
+
+    function startCountdown(offset, onEnd) {
+      // Statické texty
+      document.getElementById("stream-title-cd").textContent = CONFIG.STREAM_TITLE;
+      document.getElementById("cd-date").innerHTML =
+        "Začátek: <strong>" +
+        new Date(CONFIG.STREAM_START_TIME).toLocaleString("cs-CZ", {
+          timeZone: "Europe/Prague",
+          day: "numeric", month: "long", year: "numeric",
+          hour: "2-digit", minute: "2-digit"
+        }) +
+        " (CEST)</strong>";
+
+      const streamStart = new Date(CONFIG.STREAM_START_TIME).getTime();
+
+      function tick() {
+        const diff = Math.max(0, streamStart - (Date.now() + offset));
+
+        const days    = Math.floor(diff / 86400000);
+        const hours   = Math.floor((diff / 3600000) % 24);
+        const minutes = Math.floor((diff / 60000) % 60);
+        const seconds = Math.floor((diff / 1000) % 60);
+
+        document.getElementById("cd-days").textContent    = pad(days);
+        document.getElementById("cd-hours").textContent   = pad(hours);
+        document.getElementById("cd-minutes").textContent = pad(minutes);
+        document.getElementById("cd-seconds").textContent = pad(seconds);
+
+        // Upozornění pod hodinu
+        const warning = document.getElementById("cd-warning");
+        if (days === 0 && hours === 0) {
+          warning.classList.remove("hidden");
+        }
+
+        if (diff <= 0) {
+          clearInterval(intervalId);
+          onEnd();
+          return;
+        }
+      }
+
+      tick();
+      const intervalId = setInterval(tick, 1000);
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       VIDEO PŘEHRÁVAČ
+    ═════════════════════════════════════════════════════ */
+    function startLivePlayer(videoUrl, startPosition) {
+      document.getElementById("stream-title-live").textContent = CONFIG.STREAM_TITLE;
+
+      const video      = document.getElementById("video");
+      const noVideo    = document.getElementById("no-video");
+      const ctaWrap    = document.getElementById("cta-wrap");
+      const ctaBtn     = document.getElementById("cta-btn");
+
+      // CTA tlačítko
+      ctaBtn.href        = CONFIG.CTA_URL;
+      ctaBtn.textContent = CONFIG.CTA_TEXT;
+
+      // Živá pozice – roste každou sekundu
+      let livePosition = startPosition;
+      setInterval(() => livePosition++, 1000);
+
+      if (!videoUrl) {
+        // Žádné video URL – zobrazíme placeholder
+        return;
+      }
+
+      noVideo.style.display = "none";
+      video.src = videoUrl;
+      video.currentTime = startPosition;
+
+      video.play().catch(() => {
+        // Autoplay blokován – čekáme na user interaction
+        video.muted = true;
+        video.play().catch(() => {});
+      });
+
+      // ── Anti-seek ────────────────────────────────────────
+      // Pokud se uživatel pokusí přetáhnout časovou osu,
+      // vrátíme ho zpět na živou pozici.
+      let isSeeking = false;
+      video.addEventListener("seeking", () => {
+        if (isSeeking) return;
+        const diff = Math.abs(video.currentTime - livePosition);
+        if (diff > 2) {
+          isSeeking = true;
+          video.currentTime = livePosition;
+          setTimeout(() => { isSeeking = false; }, 200);
+        }
+      });
+
+      // ── CTA zobrazení ─────────────────────────────────────
+      let ctaShown = false;
+      video.addEventListener("timeupdate", () => {
+        if (!ctaShown && video.currentTime >= CONFIG.CTA_APPEARS_AT_SECONDS) {
+          ctaShown = true;
+          ctaWrap.classList.remove("hidden");
+        }
+      });
+
+      // ── Konec videa ────────────────────────────────────────
+      video.addEventListener("ended", () => showPhase("ended"));
+    }
+
+    /* ═══════════════════════════════════════════════════════
+       INIT
+    ═════════════════════════════════════════════════════ */
+    async function init() {
+      // Statické texty pro ended fázi
+      const replayBtn = document.getElementById("replay-btn");
+      replayBtn.href        = CONFIG.REPLAY_URL;
+      replayBtn.textContent = CONFIG.REPLAY_BUTTON_TEXT;
+
+      const offset     = await getServerTimeOffset();
+      const now        = Date.now() + offset;
+      const streamStart = new Date(CONFIG.STREAM_START_TIME).getTime();
+
+      if (now >= streamStart) {
+        // Jsme za startem → přímé spuštění přehrávače
+        const elapsed = Math.floor((now - streamStart) / 1000);
+        showPhase("live");
+        startLivePlayer(CONFIG.VIDEO_URL, elapsed);
+      } else {
+        // Odpočet
+        showPhase("countdown");
+        startCountdown(offset, () => {
+          showPhase("live");
+          startLivePlayer(CONFIG.VIDEO_URL, 0);
+        });
+      }
+    }
+
+    init();
+  </script>
+</body>
+</html>
