@@ -1,4 +1,9 @@
 {
   "outputDirectory": ".",
-  "buildCommand": null
+  "buildCommand": null,
+  "routes": [
+    { "src": "/vysilani-1", "dest": "/vysílání-1.html" },
+    { "src": "/vysilani-1/", "dest": "/vysílání-1.html" },
+    { "src": "/", "dest": "/index.html" }
+  ]
 }

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CoreRestart Live</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: loading
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-loading" class="center">
+    <p>Načítám…</p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: countdown
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-countdown" class="center hidden">
+    <h1 id="stream-title-cd"></h1>
+    <p class="subtitle">Živé vysílání začíná za:</p>
+
+    <div class="timer">
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-days">00</span></div>
+        <span class="timer-label">dní</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-hours">00</span></div>
+        <span class="timer-label">hodin</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-minutes">00</span></div>
+        <span class="timer-label">minut</span>
+      </div>
+      <div class="timer-sep">:</div>
+      <div class="timer-unit">
+        <div class="timer-box"><span id="cd-seconds">00</span></div>
+        <span class="timer-label">sekund</span>
+      </div>
+    </div>
+
+    <p id="cd-warning" class="countdown-warning hidden">
+      ⚡ Vysílání začíná brzy – zůstaňte na stránce!
+    </p>
+
+    <p class="countdown-date" id="cd-date"></p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: live
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-live" class="hidden">
+    <header class="live-header">
+      <h1 id="stream-title-live"></h1>
+      <div class="live-badge">
+        <div class="live-dot"></div>
+        LIVE
+      </div>
+    </header>
+
+    <div class="live-content">
+      <div class="video-wrap">
+        <div id="player-container">
+          <video id="video" playsinline></video>
+          <div id="no-video">Video není k dispozici. Kontaktujte administrátora.</div>
+          <div id="play-overlay" class="hidden">
+            <button id="play-btn">▶ Spustit vysílání</button>
+          </div>
+          <div id="custom-controls">
+            <button id="ctrl-play" class="ctrl-btn" aria-label="Přehrát / Pozastavit"></button>
+            <div class="ctrl-spacer"></div>
+            <div class="ctrl-right">
+              <button id="ctrl-mute" class="ctrl-btn" aria-label="Ztlumit / Odtlumit"></button>
+              <input id="ctrl-vol" type="range" min="0" max="1" step="0.05" value="1" aria-label="Hlasitost">
+              <button id="ctrl-fs" class="ctrl-btn" aria-label="Celá obrazovka"></button>
+            </div>
+          </div>
+        </div>
+
+        <div id="cta-wrap" class="hidden">
+          <a id="cta-btn" class="btn-cta" target="_blank" rel="noopener noreferrer"></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PHASE: ended
+  ════════════════════════════════════════════════════ -->
+  <div id="phase-ended" class="center hidden">
+    <div class="icon">📺</div>
+    <h1>Vysílání skončilo</h1>
+    <p>Děkujeme za sledování.</p>
+    <a id="replay-btn" class="btn-replay" target="_blank" rel="noopener noreferrer"></a>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
