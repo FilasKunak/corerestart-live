@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Děkujeme za registraci – CoreRestart Live</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:  #f5c518;
+      --black: #0f0f0f;
+      --grey-mid:  #767676;
+      --grey-line: #e8e8e8;
+      --green: #22c55e;
+      --white: #ffffff;
+      --font:  'Open Sans', sans-serif;
+      --radius-lg: 16px;
+    }
+
+    html, body {
+      font-family: var(--font);
+      background: var(--white);
+      color: var(--black);
+      height: 100%;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--black);
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .logo-img {
+      width: 46px;
+      height: 46px;
+      object-fit: contain;
+      border-radius: 50%;
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .logo-name {
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: 2.5px;
+      color: var(--white);
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    .live-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gold);
+      color: var(--black);
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: 3px;
+      padding: 3px 8px 3px 7px;
+      border-radius: 3px;
+      text-transform: uppercase;
+      line-height: 1;
+      width: fit-content;
+    }
+
+    .live-badge::before {
+      content: "";
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--black);
+      animation: live-pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes live-pulse {
+      0%, 100% { opacity: 1;   transform: scale(1);   }
+      50%       { opacity: 0.3; transform: scale(0.6); }
+    }
+
+    /* ── Main content ── */
+    main {
+      min-height: calc(100vh - 72px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    .card {
+      text-align: center;
+      max-width: 520px;
+      width: 100%;
+    }
+
+    /* Zelená fajfka */
+    .checkmark-wrap {
+      margin: 0 auto 36px;
+      width: 96px;
+      height: 96px;
+      background: #f0fdf4;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pop-in 0.5s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes pop-in {
+      0%   { transform: scale(0.4); opacity: 0; }
+      100% { transform: scale(1);   opacity: 1; }
+    }
+
+    .checkmark-wrap svg {
+      width: 52px;
+      height: 52px;
+      stroke: var(--green);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      animation: draw-check 0.45s 0.35s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    @keyframes draw-check {
+      0%   { stroke-dashoffset: 60; opacity: 0; }
+      100% { stroke-dashoffset: 0;  opacity: 1; }
+    }
+
+    .checkmark-wrap svg polyline {
+      stroke-dasharray: 60;
+      stroke-dashoffset: 60;
+      animation: draw-check 0.45s 0.35s cubic-bezier(.16, 1, .3, 1) forwards;
+    }
+
+    .card h1 {
+      font-size: clamp(26px, 4vw, 38px);
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      line-height: 1.2;
+      color: var(--black);
+      margin-bottom: 16px;
+      animation: fade-up 0.6s 0.55s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .card p {
+      font-size: 16px;
+      font-weight: 400;
+      color: var(--grey-mid);
+      line-height: 1.8;
+      animation: fade-up 0.6s 0.68s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 44px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey-mid);
+      text-decoration: none;
+      border-bottom: 1px solid var(--grey-line);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+      animation: fade-up 0.6s 0.8s cubic-bezier(.16, 1, .3, 1) both;
+    }
+
+    .back-link:hover {
+      color: var(--black);
+      border-color: var(--black);
+    }
+
+    .back-link::before { content: "←"; font-weight: 400; letter-spacing: 0; }
+
+    @keyframes fade-up {
+      0%   { opacity: 0; transform: translateY(16px); }
+      100% { opacity: 1; transform: translateY(0);    }
+    }
+
+    @media (max-width: 480px) {
+      header { padding: 0 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ HEADER ══ -->
+  <header>
+    <a href="/" class="logo-wrap">
+      <img src="image/Logo-stredni.png" alt="CoreRestart logo" class="logo-img" />
+      <div class="logo-text-block">
+        <span class="logo-name">CoreRestart</span>
+        <span class="live-badge">LIVE</span>
+      </div>
+    </a>
+  </header>
+
+  <!-- ══ CONTENT ══ -->
+  <main>
+    <div class="card">
+
+      <div class="checkmark-wrap">
+        <svg viewBox="0 0 52 52" aria-hidden="true">
+          <polyline points="10,28 21,39 42,16" />
+        </svg>
+      </div>
+
+      <h1>Hotovo, vše proběhlo<br>v pořádku.</h1>
+      <p>Budete u toho první.</p>
+
+      <a href="/" class="back-link">Zpět na hlavní stránku</a>
+
+    </div>
+  </main>
+
+</body>
+</html>

@@ -4,6 +4,8 @@
   "routes": [
     { "src": "/vysilani-1", "dest": "/vysílání-1.html" },
     { "src": "/vysilani-1/", "dest": "/vysílání-1.html" },
+    { "src": "/dekujeme-za-registraci", "dest": "/dekovaci-hlavni.html" },
+    { "src": "/dekujeme-za-registraci/", "dest": "/dekovaci-hlavni.html" },
     { "src": "/", "dest": "/index.html" }
   ]
 }
