@@ -6,6 +6,8 @@
     { "src": "/vysilani-1/", "dest": "/vysílání-1.html" },
     { "src": "/dekujeme-za-registraci", "dest": "/dekovaci-hlavni.html" },
     { "src": "/dekujeme-za-registraci/", "dest": "/dekovaci-hlavni.html" },
+    { "src": "/exkluzivni-nabidka", "dest": "/exkluzivni-nabidka.html" },
+    { "src": "/exkluzivni-nabidka/", "dest": "/exkluzivni-nabidka.html" },
     { "src": "/", "dest": "/index.html" }
   ]
 }

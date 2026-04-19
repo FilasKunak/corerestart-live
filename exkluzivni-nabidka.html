@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Exkluzivní nabídka – FyzioKlub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink:   #ffdddd;
+      --black:  #000000;
+      --gold:   #ffcc00;
+      --navy:   #162438;
+      --white:  #ffffff;
+      --gray:   #f7f4f2;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: var(--white);
+      color: var(--black);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── HEADER ── */
+    .site-header {
+      background: var(--navy);
+      padding: 0 40px;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-header .logo {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+    .site-header .logo img {
+      height: 44px;
+      width: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+    .site-header .logo-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+    }
+    .site-header .logo-name {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.04em;
+    }
+    .site-header .logo-tag {
+      color: var(--gold);
+      font-weight: 600;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: var(--navy);
+      padding: 80px 40px 90px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(255,204,0,0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--navy);
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 6px 18px;
+      border-radius: 2px;
+      margin-bottom: 32px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.15;
+      max-width: 800px;
+      margin: 0 auto 20px;
+    }
+    .hero h1 .accent {
+      color: var(--gold);
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      font-weight: 300;
+      color: rgba(255,255,255,0.75);
+      max-width: 600px;
+      margin: 0 auto 36px;
+      line-height: 1.7;
+    }
+    .hero-note {
+      font-size: 0.92rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.55);
+      max-width: 560px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .hero-divider {
+      width: 60px;
+      height: 3px;
+      background: var(--gold);
+      margin: 40px auto 0;
+      border-radius: 2px;
+    }
+
+    /* ── SECTION INTRO ── */
+    .section-intro {
+      background: var(--pink);
+      padding: 48px 40px;
+      text-align: center;
+    }
+    .section-intro p {
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--navy);
+      max-width: 680px;
+      margin: 0 auto;
+      line-height: 1.75;
+    }
+
+    /* ── PROGRAMS ── */
+    .programs { background: var(--white); }
+
+    .program-block {
+      border-bottom: 1px solid #ede9e6;
+    }
+    .program-block:last-child { border-bottom: none; }
+
+    .program-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 40px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+    .program-block:nth-child(even) .program-inner {
+      direction: rtl;
+    }
+    .program-block:nth-child(even) .program-inner > * {
+      direction: ltr;
+    }
+
+    .program-visual {
+      position: relative;
+      align-self: flex-start;
+    }
+    @media (min-width: 769px) {
+      .program-visual {
+        position: sticky;
+        top: 32px;
+      }
+    }
+    .program-visual img {
+      width: 100%;
+      border-radius: 8px;
+      display: block;
+      box-shadow: 0 20px 60px rgba(22,36,56,0.15);
+    }
+
+
+    .program-number {
+      position: absolute;
+      top: -20px;
+      left: -16px;
+      font-size: 7rem;
+      font-weight: 800;
+      color: var(--gold);
+      line-height: 1;
+      opacity: 0.25;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .program-content {}
+    .program-tag {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: var(--navy);
+      padding: 4px 12px;
+      border-radius: 2px;
+      margin-bottom: 16px;
+    }
+    .program-title {
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .program-subtitle {
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+    .program-desc {
+      font-size: 0.97rem;
+      font-weight: 400;
+      color: #333;
+      line-height: 1.75;
+      margin-bottom: 28px;
+    }
+    .program-desc strong {
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .program-divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--gold), transparent);
+      margin-bottom: 24px;
+    }
+
+    .bonuses-title {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--navy);
+      margin-bottom: 16px;
+      opacity: 0.6;
+    }
+
+    .bonus-item {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #f0ece8;
+    }
+    .bonus-item:last-child { border-bottom: none; margin-bottom: 0; }
+
+    .bonus-icon {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: var(--pink);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+    }
+
+    .bonus-body { flex: 1; }
+    .bonus-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.4;
+      margin-bottom: 2px;
+    }
+    .bonus-desc {
+      font-size: 0.82rem;
+      font-weight: 400;
+      color: #666;
+      line-height: 1.55;
+    }
+    .bonus-price {
+      flex-shrink: 0;
+      text-align: right;
+    }
+    .bonus-price .original {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: #999;
+      text-decoration: line-through;
+      display: block;
+    }
+    .bonus-price .free {
+      font-size: 0.82rem;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── SPECIAL BLOCK: chodidla (no image) ── */
+    .program-visual-placeholder {
+      background: var(--navy);
+      border-radius: 8px;
+      box-shadow: 0 20px 60px rgba(22,36,56,0.2);
+      padding: 48px 36px;
+      min-height: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .placeholder-bg-lines {
+      position: absolute;
+      inset: 0;
+      opacity: 0.07;
+    }
+    .placeholder-body-parts {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .body-part {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: 0.06em;
+      line-height: 1.1;
+      opacity: 0;
+      transform: translateX(-20px);
+      animation: slideIn 0.6s ease forwards;
+    }
+    .body-part:nth-child(1) { animation-delay: 0.1s; }
+    .body-part:nth-child(2) { animation-delay: 0.25s; }
+    .body-part:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes slideIn {
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .placeholder-dot {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      border-radius: 50%;
+      margin: 4px auto;
+      position: relative;
+      z-index: 1;
+    }
+    .placeholder-label {
+      background: var(--gold);
+      color: var(--navy);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 8px 22px;
+      border-radius: 2px;
+      position: relative;
+      z-index: 1;
+      margin-top: 8px;
+    }
+    .placeholder-sub {
+      color: rgba(255,255,255,0.45);
+      font-size: 0.8rem;
+      font-weight: 400;
+      margin-top: 14px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* SVG decorative lines for placeholder */
+    .placeholder-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      background: var(--navy);
+      padding: 40px;
+      text-align: center;
+      color: rgba(255,255,255,0.4);
+      font-size: 0.82rem;
+      font-weight: 400;
+    }
+    .site-footer a {
+      color: var(--gold);
+      text-decoration: none;
+    }
+
+    /* ── ANIMATIONS ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .site-header { padding: 0 20px; }
+      .hero { padding: 60px 24px 70px; }
+      .section-intro { padding: 36px 24px; }
+      .program-inner {
+        grid-template-columns: 1fr;
+        gap: 36px;
+        padding: 56px 24px;
+      }
+      .program-block:nth-child(even) .program-inner {
+        direction: ltr;
+      }
+      .program-number {
+        font-size: 5rem;
+        top: -14px;
+        left: -8px;
+      }
+      .site-footer { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a href="/" class="logo">
+    <img src="image/Logo-stredni.png" alt="CoreRestart logo" />
+    <div class="logo-text">
+      <span class="logo-name">CoreRestart</span>
+      <span class="logo-tag">FyzioKlub</span>
+    </div>
+  </a>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Exkluzivní nabídka pro členy</div>
+  <h1>Prodlužte členství ve FyzioKlubu<br />a získejte výzvu <span class="accent">ZDARMA!</span></h1>
+  <p class="hero-sub">
+    Prodlužte své členství ve FyzioKlubu o&nbsp;další rok a&nbsp;získejte jednu z&nbsp;našich specializovaných výzev jako <strong style="color:var(--gold);font-weight:700;">dárek zdarma!</strong>
+  </p>
+  <p class="hero-note">
+    Vyberte si jakoukoliv výzvu z&nbsp;níže uvedeného seznamu. Jakmile své členství prodloužíte, napište nám, jakou výzvu jste si vybrali a&nbsp;my Vám ji okamžitě zpřístupníme na&nbsp;příštích 12&nbsp;měsíců.
+  </p>
+  <div class="hero-divider"></div>
+</section>
+
+<!-- INTRO -->
+<section class="section-intro">
+  <p>Vybírejte z&nbsp;pěti specializovaných cvičebních výzev. Každá je navržena tak, aby vám přinesla reálné výsledky – jednoduše, šetrně a&nbsp;efektivně.</p>
+</section>
+
+<!-- PROGRAMS -->
+<div class="programs">
+
+  <!-- 1. Transformační FyzioVýzva -->
+  <div class="program-block">
+    <div class="program-inner">
+      <div class="program-visual fade-up">
+        <div class="program-number">1</div>
+        <img src="image/img-exkluzivni-nabidka/Transforma%C4%8Dn%C3%AD%20FyzioV%C3%BDzva.png" alt="Transformační FyzioVýzva" />
+      </div>
+      <div class="program-content fade-up">
+        <span class="program-tag">90denní výzva</span>
+        <h2 class="program-title">Transformační FyzioVýzva</h2>
+        <div class="program-subtitle">Revoluce v&nbsp;hubnutí a&nbsp;proměně postavy ve&nbsp;stále vyšším věku</div>
+        <p class="program-desc">
+          Během 90&nbsp;dnů Vás krok za krokem provedeme naší unikátní metodou proměny postavy. Od prvního dne bude naším hlavním cílem rozproudit lymfu, usměrnit hormony a nastartovat metabolismus&hellip;<br /><br />
+          Vyhraďte si zhruba <strong>20 minut ideálně každý den</strong> a&nbsp;vše hravě zvládnete! Žádné náročné cviky – naše cvičení s&nbsp;posilovací gumou zvládne naprosto každý. Žádné zbytečné omezování – klíčové je, abyste měla pocit, že vše co děláte, skvěle zapadá do Vašeho dne.
+        </p>
+        <div class="program-divider"></div>
+        <div class="bonuses-title">Exkluzivní bonusy k výzvě</div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🎁</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Speciální dárek: Posilovací guma ZDARMA</div>
+            <div class="bonus-desc">Pošleme Vám ji zcela zdarma přes Zásilkovnu – na výdejní místo nebo domů.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">199 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🥗</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 1: Extra rychlé jídelníčky bez počítání kalorií</div>
+            <div class="bonus-desc">Respektují metabolismus, stabilizují energii, podporují hormonální rovnováhu – a&nbsp;zapadnou do běžného života.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">📋</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 2: Metabolická karta – seznam potravin</div>
+            <div class="bonus-desc">Přehledný seznam potravin, které metabolismus zrychlují, a&nbsp;které naopak zpomalují. Jasno jednou provždy.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🧘</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 3: Meditační tréninky pro usměrnění hormonů</div>
+            <div class="bonus-desc">Krátká, cílená audio vedení, která pomáhají tělu přepnout ze stresového režimu do&nbsp;režimu spolupráce. Tělo se přestává bránit – a Vy hubnete.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. FyzioVýzva pro krční páteř -->
+  <div class="program-block" style="background:var(--gray);">
+    <div class="program-inner">
+      <div class="program-visual fade-up">
+        <div class="program-number">2</div>
+        <img src="image/img-exkluzivni-nabidka/FyzioV%C3%BDzva%20pro%20kr%C4%8Dn%C3%AD%20p%C3%A1te%C5%99.png" alt="FyzioVýzva pro krční páteř" />
+      </div>
+      <div class="program-content fade-up">
+        <span class="program-tag">90denní výzva</span>
+        <h2 class="program-title">FyzioVýzva pro krční páteř</h2>
+        <div class="program-subtitle">Revoluce v&nbsp;péči o&nbsp;krční páteř, ramena a&nbsp;šíji z&nbsp;pohodlí domova</div>
+        <p class="program-desc">
+          Během 90&nbsp;dnů Vás provedeme naší unikátní metodou cvičení. Od prvního dne bude naším cílem, aby Váš mozek v&nbsp;oblasti krční páteře, ramen a&nbsp;mezi lopatkami začal používat <strong>správné svalové souhry</strong> a&nbsp;díky tomu došlo k&nbsp;potřebnému uvolnění svalů a&nbsp;zklidnění nervových drah.<br /><br />
+          Za posledních 15&nbsp;let v&nbsp;našem fyzio studiu prošlo tímto postupem přes <strong>tisíc klientů s&nbsp;úžasnými výsledky</strong>. Přesně proto víme, co v&nbsp;příštích týdnech a&nbsp;měsících potřebujete udělat.
+        </p>
+        <div class="program-divider"></div>
+        <div class="bonuses-title">Exkluzivní bonusy k výzvě</div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">💻</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 1: Cviky ke stolu – zdravá krční páteř při sezení</div>
+            <div class="bonus-desc">Sada jednoduchých speciálních cviků ke stolu: připraví tělo na sezení, vykompenzují přetížení, udrží krční páteř pohyblivou.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 490 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🌙</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 2: Sestavy do postele – večerní a ranní uvolnění</div>
+            <div class="bonus-desc">Zklidníte nervové dráhy, snížíte svalové napětí a výrazně zlepšíte kvalitu spánku. Ráno se probudíte odpočatí.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🚗</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 3: Cviky do auta – dlouhé cesty bez bolestí</div>
+            <div class="bonus-desc">Naučíte se v autě srovnat, bezpečně stimulovat správné svalové souhry a efektivně uvolňovat napětí při jízdě.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 190 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. FyzioVýzva pro seniory -->
+  <div class="program-block">
+    <div class="program-inner">
+      <div class="program-visual fade-up">
+        <div class="program-number">3</div>
+        <img src="image/img-exkluzivni-nabidka/FyzioV%C3%BDzva%20pro%20seniory.png" alt="FyzioVýzva pro seniory" />
+      </div>
+      <div class="program-content fade-up">
+        <span class="program-tag">Pohybová výzva</span>
+        <h2 class="program-title">FyzioVýzva pro seniory</h2>
+        <div class="program-subtitle">Revoluce v&nbsp;péči o&nbsp;pohybový aparát ve&nbsp;stále vyšším věku</div>
+        <p class="program-desc">
+          Od prvního dne začneme pracovat na tom, aby váš mozek opět používal <strong>správné svalové souhry</strong> – abyste přestali zbytečně přetěžovat páteř, klouby či pánevní dno.<br /><br />
+          Využijeme k tomu extrémně šetrné a efektivní pozice <strong>bez jakéhokoliv přetěžování</strong>. Bez klečení, bez lehaní na zem. Pozice vleže na posteli, vsedě na židli nebo ve stoje s oporou – hravě zvládnete i s bolestmi či výměnou kyčlí nebo kolen.
+        </p>
+        <div class="program-divider"></div>
+        <div class="bonuses-title">Exkluzivní bonusy k výzvě</div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🦶</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 1: Funkční chodidla, kolena a kyčle</div>
+            <div class="bonus-desc">Znovu získáte jistotu při chůzi, zbavíte se otoků nohou, snížíte riziko pádu a&nbsp;zlepšíte rovnováhu.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">😴</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 2: Klidný spánek a bezbolestné ráno</div>
+            <div class="bonus-desc">Zbavíte se ranní ztuhlosti, budete usínat rychleji a&nbsp;spát hlouběji – více energie a&nbsp;lepší nálada celý den.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🚶</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 3: Funkční a aktivní chůze bez bolestí</div>
+            <div class="bonus-desc">Každý váš krok se stane mini-cvičením pro celé tělo. Zbavíte se šouravé chůze a získáte zpět vzpřímený postoj.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">1 990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🌿</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Bonus 4: Funkční sestava na lavičku do přírody</div>
+            <div class="bonus-desc">Proměňte každou lavičku v&nbsp;parku nebo na zahradě v&nbsp;místo, kde si zacvičíte. Výrazně prodloužíte vzdálenost, kterou ujdete bez únavy.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="original">990 Kč</span>
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. FyzioYóga 30+30 -->
+  <div class="program-block" style="background:var(--gray);">
+    <div class="program-inner">
+      <div class="program-visual fade-up">
+        <div class="program-number">4</div>
+        <img src="image/img-exkluzivni-nabidka/FyzioY%C3%B3ga%2030%2B30.png" alt="FyzioYóga 30+30" />
+      </div>
+      <div class="program-content fade-up">
+        <span class="program-tag">60denní výzva</span>
+        <h2 class="program-title">FyzioYóga 30+30</h2>
+        <div class="program-subtitle">Cvičte jógu jako nikdy v&nbsp;životě – dostaňte do skvělé kondice tělo, mysl i&nbsp;zdraví</div>
+        <p class="program-desc">
+          Během 60denní on-line cvičební výzvy vám předáme naší unikátní metodu cvičení jógy. Nezáleží, zda jste úplná začátečnice nebo jógu cvičíte dlouhá léta.<br /><br />
+          Naučíme vás, jak propojit <strong>klasickou jógu</strong> a její benefity s&nbsp;moderním <strong>fyzioCORE cvičením</strong> a&nbsp;jeho úžasnými účinky na pohybový aparát. Získáte tak výjimečný nástroj, jak své tělo, mysl a&nbsp;zdraví udržet v&nbsp;kondici po celý váš život.
+        </p>
+        <div class="program-divider"></div>
+        <div class="bonuses-title">Co k výzvě získáte</div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">🎬</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Instruktážní videa náročnějších pozic</div>
+            <div class="bonus-desc">Budete precizně cvičit i ty o něco náročnější pozice ze sestav – detailně připravené instrukce pro každý cvik.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">💪</div>
+          <div class="bonus-body">
+            <div class="bonus-name">Aktivační CORE sestavy</div>
+            <div class="bonus-desc">Všechny aktivační CORE sestavy na jednom místě – kdykoliv si je zacvičíte i&nbsp;při dalších sportech nebo pohybových aktivitách.</div>
+          </div>
+          <div class="bonus-price">
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+
+        <div class="bonus-item">
+          <div class="bonus-icon">✉️</div>
+          <div class="bonus-body">
+            <div class="bonus-name">E-mailový průvodce výzvou</div>
+            <div class="bonus-desc">Každý den výzvy vám ráno pošleme e-mail, který vás namotivuje do cvičení a udrží vaší pozornost na maximum. Nic vám neunikne!</div>
+          </div>
+          <div class="bonus-price">
+            <span class="free">ZDARMA</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. FyzioVýzva pro chodidla, kolena a kyčle (bez obrázku) -->
+  <div class="program-block" style="background:var(--pink);">
+    <div class="program-inner">
+      <div class="program-visual fade-up">
+        <div class="program-number" style="color:var(--navy);opacity:0.12;">5</div>
+        <div class="program-visual-placeholder">
+          <svg class="placeholder-svg" viewBox="0 0 400 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="200" cy="210" r="180" stroke="rgba(255,204,0,0.12)" stroke-width="1"/>
+            <circle cx="200" cy="210" r="130" stroke="rgba(255,204,0,0.08)" stroke-width="1"/>
+            <circle cx="200" cy="210" r="80" stroke="rgba(255,204,0,0.06)" stroke-width="1"/>
+            <line x1="20" y1="210" x2="380" y2="210" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <line x1="200" y1="30" x2="200" y2="390" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+            <path d="M60 100 Q200 60 340 100" stroke="rgba(255,204,0,0.1)" stroke-width="1" fill="none"/>
+            <path d="M60 320 Q200 360 340 320" stroke="rgba(255,204,0,0.1)" stroke-width="1" fill="none"/>
+          </svg>
+
+          <div class="placeholder-body-parts">
+            <span class="body-part">CHODIDLA</span>
+            <div class="placeholder-dot"></div>
+            <span class="body-part">KOLENA</span>
+            <div class="placeholder-dot"></div>
+            <span class="body-part">KYČLE</span>
+          </div>
+
+          <div class="placeholder-label">Spouštíme podzim 2026</div>
+          <p class="placeholder-sub">Brzy k dispozici</p>
+        </div>
+      </div>
+      <div class="program-content fade-up">
+        <span class="program-tag" style="background:var(--navy);">Připravujeme · Podzim 2026</span>
+        <h2 class="program-title" style="color:var(--navy);">FyzioVýzva pro chodidla, kolena a kyčle</h2>
+        <div class="program-subtitle">Funkční posilování dolních končetin pro aktivní a bezbolestný život</div>
+        <p class="program-desc">
+          Tato unikátní výzva bude spuštěna na <strong>podzim 2026</strong>. V&nbsp;této výzvě se zaměříme na <strong>funkční posilování chodidel, kolen a kyčlí</strong>, aby tyto části těla vydržely co nejdéle v kondici a bez bolestí.<br /><br />
+          Budeme se také zaměřovat na chronické bolesti z přetížení, pooperační rekonvalescenci či nápravu při zanedbané rehabilitaci. Zkrátka vše potřebné, aby chodidla, kolena a kyčle fungovaly co nejlépe do co nejvyššího věku. <strong>Bez omezení a bolestí.</strong>
+        </p>
+
+        <div style="background:var(--navy);border-radius:8px;padding:28px 28px;margin-top:8px;">
+          <div style="display:flex;align-items:flex-start;gap:16px;">
+            <div style="flex-shrink:0;background:var(--gold);border-radius:50%;width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:20px;">⏰</div>
+            <div>
+              <div style="font-size:0.9rem;font-weight:700;color:var(--white);margin-bottom:6px;">Vyberte si tuto výzvu nyní</div>
+              <div style="font-size:0.85rem;font-weight:400;color:rgba(255,255,255,0.65);line-height:1.65;">
+                Pokud si vyberete tuto výzvu, získáte k&nbsp;ní přístup ve&nbsp;chvíli jejího odstartování na podzim 2026. Nemusíte čekat – přihlaste se nyní a&nbsp;budete u&nbsp;toho jako první.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <p>&copy; 2026 CoreRestart – FyzioKlub &nbsp;·&nbsp; <a href="https://corerestart.cz/">corerestart.cz</a></p>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>

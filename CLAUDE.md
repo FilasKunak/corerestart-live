@@ -77,16 +77,23 @@ Je to čisté HTML/CSS/JS – žádné závislosti, žádný build process.
 
 ```
 CoreRestart-Live/
-├── index.html          – homepage (coming soon stránka, corerestart.live/)
-├── vysílání-1.html     – fake livestream player (corerestart.live/vysilani-1)
-├── styles.css          – CSS pro vysílání-1.html
-├── script.js           – JS pro vysílání-1.html
-├── vercel.json         – konfigurace Vercel + routy
-├── CLAUDE.md           – tento soubor s instrukcemi
+├── index.html                – homepage (coming soon stránka, corerestart.live/)
+├── dekovaci-hlavni.html      – děkovací stránka (corerestart.live/dekujeme-za-registraci)
+├── exkluzivni-nabidka.html   – stránka s nabídkou 5 výzev (corerestart.live/exkluzivni-nabidka)
+├── vysílání-1.html           – fake livestream player (corerestart.live/vysilani-1)
+├── styles.css                – CSS pro vysílání-1.html
+├── script.js                 – JS pro vysílání-1.html
+├── vercel.json               – konfigurace Vercel + routy
+├── CLAUDE.md                 – tento soubor s instrukcemi
 ├── .gitignore
 ├── image/
-│   ├── Logo-stredni.png   – kulaté logo CoreRestart
-│   └── My dva nové.png    – fotka Filipa a Tomáše (černé pozadí; na index.html zobrazena přímo bez blend mode)
+│   ├── Logo-stredni.png                    – kulaté logo CoreRestart
+│   ├── My dva nové.png                     – fotka Filipa a Tomáše
+│   └── img-exkluzivni-nabidka/            – produktové obrázky pro exkluzivni-nabidka.html
+│       ├── Transformační FyzioVýzva.png
+│       ├── FyzioVýzva pro krční páteř.png
+│       ├── FyzioVýzva pro seniory.png
+│       └── FyzioYóga 30+30.png
 ├── .claude/
 └── .vercel/
 ```
@@ -221,12 +228,53 @@ Tyto soubory byly smazány 4. dubna 2026 jako pozůstatky z abandoned Next.js im
 
 ---
 
+## Děkovací stránka (dekovaci-hlavni.html)
+
+Vytvořena 15. dubna 2026. Zobrazí se po odeslání e-mailového formuláře SmartEmailing.
+
+- **URL:** `corerestart.live/dekujeme-za-registraci` → route v `vercel.json`
+- **Soubor:** `dekovaci-hlavni.html`
+- **Design:** stejný jako index.html – černý header, bílé pozadí, Open Sans
+- **Obsah:** velká zelená animovaná fajfka (SVG 200 px) + text „Hotovo, vše proběhlo v pořádku." + „Budete u toho první." + odkaz zpět na hlavní stránku
+- **Přesměrování:** nastaveno v SmartEmailing adminu → URL po odeslání formuláře = `https://corerestart.live/dekujeme-za-registraci` ✓ (ověřeno a funkční)
+
+### Technické detaily fajfky
+- SVG bez kruhového pozadí (kruh byl odstraněn – způsoboval velkou prázdnou plochu pod fajfkou)
+- `viewBox="7 13 38 30"` – těsně ořezává jen tvar fajfky, žádné prázdné místo pod ní
+- Animace: `pop-in` (scale) při načtení + `draw-check` (stroke-dashoffset) pro vykreslení čáry
+
+---
+
+## Exkluzivní nabídka (exkluzivni-nabidka.html)
+
+Vytvořena 18. dubna 2026. Stránka pro členy FyzioKlubu s nabídkou 5 cvičebních výzev zdarma při prodloužení členství.
+
+- **URL:** `corerestart.live/exkluzivni-nabidka` → route v `vercel.json`
+- **Soubor:** `exkluzivni-nabidka.html`
+- **Design:** barvy `#ffdddd`, `#000000`, `#ffcc00`, `#162438` – Open Sans (300–800)
+- **Layout:** Hero sekce (navy) + 5 program bloků v alternujícím 2-sloupcovém gridu
+
+**5 programů:**
+1. Transformační FyzioVýzva (90 dní) – obrázek + bonusy (guma, jídelníčky, metabolická karta, meditace)
+2. FyzioVýzva pro krční páteř (90 dní) – obrázek + bonusy (ke stolu, do postele, do auta)
+3. FyzioVýzva pro seniory – obrázek + bonusy (chodidla/kolena/kyčle, spánek, chůze, lavička)
+4. FyzioYóga 30+30 (60 dní) – obrázek + bonusy (videa pozic, CORE sestavy, e-mail průvodce)
+5. FyzioVýzva pro chodidla, kolena a kyčle – **bez obrázku** (spouštění podzim 2026)
+   → nahrazeno animovaným navy placeholderem s názvem tělesných částí a badgem "PODZIM 2026"
+
+**Technické detaily:**
+- Obrázky mají `position: sticky; top: 32px` na desktopu → obrázek zůstane na místě, text se scrolluje vedle
+- Na mobilu sticky vypnuto, normální flow
+- Obrázky v `/image/img-exkluzivni-nabidka/` – názvy s diakritikou, URL-encodovat při odkazování
+- Scroll animace: `.fade-up` + IntersectionObserver
+
+---
+
 ## Budoucí vylepšení (TODO)
 
 - [ ] Schovat VIDEO_URL do Vercel environment variable místo hardcoded v HTML
       (volat `/api/video-url` endpoint – URL nebude viditelná ve zdrojovém kódu)
-- [ ] Napojit e-mailový formulář na backend (aktuálně SmartEmailing embed)
-- [ ] Přidat další stránky webu
+- [ ] Přidat produktový obrázek k FyzioVýzva pro chodidla, kolena a kyčle (podzim 2026)
 
 ---
 
@@ -252,13 +300,19 @@ The app is now accessible on both:
 ## Routování (vercel.json)
 
 ```json
-{ "src": "/vysilani-1",  "dest": "/vysílání-1.html" }
-{ "src": "/vysilani-1/", "dest": "/vysílání-1.html" }
-{ "src": "/",            "dest": "/index.html"       }
+{ "src": "/vysilani-1",               "dest": "/vysílání-1.html"         }
+{ "src": "/vysilani-1/",              "dest": "/vysílání-1.html"         }
+{ "src": "/dekujeme-za-registraci",   "dest": "/dekovaci-hlavni.html"    }
+{ "src": "/dekujeme-za-registraci/",  "dest": "/dekovaci-hlavni.html"    }
+{ "src": "/exkluzivni-nabidka",       "dest": "/exkluzivni-nabidka.html" }
+{ "src": "/exkluzivni-nabidka/",      "dest": "/exkluzivni-nabidka.html" }
+{ "src": "/",                         "dest": "/index.html"              }
 ```
 
 - `corerestart.live/` → index.html (coming soon homepage)
 - `corerestart.live/vysilani-1` → vysílání-1.html (fake livestream player)
+- `corerestart.live/dekujeme-za-registraci` → dekovaci-hlavni.html (děkovací stránka po registraci)
+- `corerestart.live/exkluzivni-nabidka` → exkluzivni-nabidka.html (nabídka 5 výzev pro členy FyzioKlubu)
 
 ---
 
