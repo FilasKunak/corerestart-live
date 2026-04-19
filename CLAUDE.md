@@ -20,18 +20,29 @@ Test result at installation: 12/12 passed (4 tests × 3 browsers)
 - WebKit (Safari)
 
 ### Test files:
-- `tests/corerestart.spec.js` – main test file (4 tests)
-- `tests/screenshots/` – automatic screenshots from each test run
+- `tests/corerestart.spec.js` – hlavní test file (4 testy: homepage, form, livestream, no-timeline)
+- `tests/exkluzivni-nabidka.spec.js` – testy pro exkluzivni-nabidka.html (9 testů)
+- `tests/screenshots/` – automatické screenshoty z každého spuštění
+
+### Test history:
+| Datum | Soubor | Výsledek |
+|---|---|---|
+| 9. dubna 2026 | `corerestart.spec.js` | 12/12 passed (4 testy × 3 prohlížeče) |
+| 19. dubna 2026 | `exkluzivni-nabidka.spec.js` | 27/27 passed (9 testů × 3 prohlížeče) |
 
 ### How to run tests:
 - Headless mode (background, no visible browser):
   `npm test`
 - Headed mode (visible browser windows):
   `npm run test:headed`
+- Konkrétní soubor:
+  `npx playwright test tests/exkluzivni-nabidka.spec.js`
 
 ### When to run tests:
-Always run tests after making changes to `index.html` or `vysílání-1.html`
-before deploying to Vercel.
+Vždy spustit testy po změnách v HTML souborech před deplojem na Vercel:
+- `index.html` → `corerestart.spec.js`
+- `vysílání-1.html` → `corerestart.spec.js`
+- `exkluzivni-nabidka.html` → `exkluzivni-nabidka.spec.js`
 
 ### Note on headless mode:
 By default Playwright runs in headless mode - browsers run in background
