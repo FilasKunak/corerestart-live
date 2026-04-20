@@ -149,7 +149,25 @@ Spustit v terminálu ve složce projektu `C:/projekty/corerestart-live`.
 
 ## Known Issues & Fixes
 
-### 1. Video starts muted (autoplay browser restriction)
+### 1. Produktové obrázky se nezobrazovaly (exkluzivni-nabidka.html)
+**Problém:** Obrázky na stránce `/exkluzivni-nabidka` se nezobrazovaly — byl vidět pouze alt text a číslo bloku.
+**Příčina 1 – diakritika v názvu souboru:** Původní soubory měly v názvu česká písmena (`Transformační FyzioVýzva.png`). Vercel neumí spolehlivě servovat soubory s diakritikou v cestě.
+**Příčina 2 – relativní vs. absolutní cesta (hlavní příčina):** Src obrázků bylo relativní (`image/...`). Při přístupu na stránku s trailing slash (`/exkluzivni-nabidka/`) prohlížeč resolvuje relativní cestu jako `/exkluzivni-nabidka/image/...`, což neexistuje.
+**Řešení:**
+1. Soubory přejmenovány na ASCII-only názvy bez diakritiky a mezer:
+   - `fyziovyzva-transformacni.png`, `fyziovyzva-krcni-pater.png`, `fyziovyzva-seniory.png`, `fyzioyoga-30-30.png`
+2. Všechny `src` atributy změněny na absolutní cestu začínající `/`:
+   ```html
+   <!-- špatně -->
+   <img src="image/img-exkluzivni-nabidka/fyziovyzva-transformacni.png">
+   <!-- správně -->
+   <img src="/image/img-exkluzivni-nabidka/fyziovyzva-transformacni.png">
+   ```
+**Pravidlo do budoucna:** Vždy používat absolutní cesty (`/image/...`) pro obrázky a assety — fungují bez ohledu na trailing slash v URL.
+
+---
+
+### 2. Video starts muted (autoplay browser restriction)
 **Problém:** Když odpočet doběhne a video se spustí automaticky, zvuk je ztlumený.
 **Důvod:** Všechny moderní prohlížeče (Chrome, Firefox, Safari) blokují autoplay
 se zvukem. Toto NELZE obejít – je to bezpečnostní funkce prohlížeče.
