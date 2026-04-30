@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dechový víkend pro seniory – CoreRestart</title>
+  <meta name="description" content="Dvoudenní online akce zcela zdarma. Naučte se hluboký brániční dech a získejte zpět aktivní pohyb bez bolestí.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:        #162438;
+      --navy-mid:    #1e3350;
+      --navy-light:  #243d5e;
+      --cream:       #faf6f0;
+      --cream-dark:  #f0ebe0;
+      --gold:        #f5c518;
+      --gold-dark:   #d4a800;
+      --coral:       #e07a5f;
+      --white:       #ffffff;
+      --black:       #0f0f0f;
+      --text:        #1a1a1a;
+      --muted:       #6a6a6a;
+      --shadow-sm:   0 4px 16px rgba(22,36,56,0.10);
+      --shadow-md:   0 8px 32px rgba(22,36,56,0.16);
+      --shadow-lg:   0 20px 64px rgba(22,36,56,0.22);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      font-size: 19px;
+      line-height: 1.75;
+      color: var(--text);
+      background: var(--cream);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================
+       HEADER
+    ============================ */
+    .site-header {
+      background: var(--black);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      padding: 14px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(245,197,24,0.25);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-logo {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .header-name {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 18px;
+      letter-spacing: 0.04em;
+    }
+
+    .online-badge {
+      background: var(--gold);
+      color: var(--black);
+      font-size: 11px;
+      font-weight: 800;
+      padding: 3px 9px;
+      border-radius: 4px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .header-tagline {
+      color: rgba(255,255,255,0.5);
+      font-size: 14px;
+      font-weight: 300;
+    }
+
+    /* ============================
+       HERO
+    ============================ */
+    .hero {
+      background: var(--navy);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding: 80px 40px 100px;
+    }
+
+    /* Background gradient glow */
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 70% 50%, rgba(245,197,24,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 100% 100%, rgba(224,122,95,0.06) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    /* Breathing rings */
+    .breath-rings {
+      position: absolute;
+      right: 5%;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 620px;
+      height: 620px;
+      pointer-events: none;
+    }
+
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation: breathe 7s ease-in-out infinite;
+    }
+
+    .ring:nth-child(1) { width: 160px; height: 160px; border: 2px solid rgba(245,197,24,0.5);  animation-delay: 0s; }
+    .ring:nth-child(2) { width: 280px; height: 280px; border: 1px solid rgba(245,197,24,0.3);  animation-delay: 0.7s; }
+    .ring:nth-child(3) { width: 400px; height: 400px; border: 1px solid rgba(245,197,24,0.18); animation-delay: 1.4s; }
+    .ring:nth-child(4) { width: 520px; height: 520px; border: 1px solid rgba(245,197,24,0.08); animation-delay: 2.1s; }
+    .ring:nth-child(5) { width: 620px; height: 620px; border: 1px solid rgba(245,197,24,0.04); animation-delay: 2.8s; }
+
+    @keyframes breathe {
+      0%,100% { transform: translate(-50%,-50%) scale(0.94); opacity: 0.6; }
+      50%      { transform: translate(-50%,-50%) scale(1.06); opacity: 1; }
+    }
+
+    /* Lung icon in centre of rings */
+    .ring-center {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3.5rem;
+      animation: breathe 7s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 680px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(245,197,24,0.12);
+      border: 1px solid rgba(245,197,24,0.35);
+      color: var(--gold);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 9px 20px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+      letter-spacing: 0.06em;
+    }
+
+    .hero-pill-dot {
+      width: 8px; height: 8px;
+      background: var(--gold);
+      border-radius: 50%;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%,100% { opacity: 1; } 50% { opacity: 0.3; }
+    }
+
+    .hero h1 {
+      font-size: clamp(2.1rem, 5vw, 3.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 20px;
+      letter-spacing: -0.025em;
+    }
+
+    .hero-subline {
+      font-size: clamp(1.15rem, 2.2vw, 1.55rem);
+      font-weight: 700;
+      color: var(--gold);
+      margin-bottom: 28px;
+      line-height: 1.35;
+    }
+
+    .hero-body {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.78);
+      margin-bottom: 48px;
+      line-height: 1.85;
+      font-weight: 300;
+      max-width: 580px;
+    }
+
+    /* ============================
+       CTA BUTTON
+    ============================ */
+    .btn-cta {
+      display: inline-block;
+      background: var(--gold);
+      color: var(--black);
+      font-family: 'Open Sans', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 800;
+      padding: 0 44px;
+      height: 60px;
+      line-height: 60px;
+      border-radius: 10px;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 0.07em;
+      text-decoration: none;
+      transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease;
+      box-shadow: 0 4px 24px rgba(245,197,24,0.38);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .btn-cta:hover {
+      background: #ffd83a;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 36px rgba(245,197,24,0.5);
+    }
+
+    .btn-cta:active { transform: translateY(-1px); }
+
+    /* ============================
+       SECTION BASE
+    ============================ */
+    .section {
+      padding: 96px 40px;
+    }
+
+    .section-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: block;
+    }
+
+    .eyebrow--gold  { color: var(--gold); }
+    .eyebrow--coral { color: var(--coral); }
+    .eyebrow--navy  { color: var(--navy-light); }
+
+    .section-h2 {
+      font-size: clamp(1.75rem, 3.2vw, 2.7rem);
+      font-weight: 800;
+      line-height: 1.2;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+      position: relative;
+    }
+
+    .section-h2--white { color: var(--white); }
+    .section-h2--dark  { color: var(--text); }
+
+    /* Gold bar under heading */
+    .bar {
+      display: block;
+      width: 52px;
+      height: 4px;
+      background: var(--gold);
+      border-radius: 2px;
+      margin-bottom: 44px;
+    }
+
+    /* ============================
+       PAIN POINTS (cream)
+    ============================ */
+    .pain-section { background: var(--cream); }
+
+    .pain-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .pain-body {
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+    }
+
+    .pain-body strong { color: var(--navy); font-weight: 700; }
+
+    .pain-highlight {
+      background: var(--white);
+      border-left: 4px solid var(--gold);
+      border-radius: 0 10px 10px 0;
+      padding: 20px 24px;
+      margin-top: 28px;
+      font-style: italic;
+      color: var(--navy-mid);
+      font-size: 1rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pain-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pain-card {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: var(--white);
+      padding: 22px 28px;
+      border-radius: 16px;
+      box-shadow: var(--shadow-sm);
+      border-left: 4px solid var(--coral);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .pain-card:hover {
+      transform: translateX(4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .pain-card-icon { font-size: 2rem; flex-shrink: 0; }
+
+    .pain-card-text {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--navy);
+      line-height: 1.35;
+    }
+
+    /* ============================
+       BENEFITS (navy)
+    ============================ */
+    .benefits-section { background: var(--navy); }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+      margin-top: 52px;
+    }
+
+    .benefit-card {
+      background: rgba(255,255,255,0.055);
+      border: 1px solid rgba(245,197,24,0.22);
+      border-radius: 22px;
+      padding: 44px 32px 36px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      background: rgba(245,197,24,0.09);
+      border-color: rgba(245,197,24,0.5);
+    }
+
+    .benefit-icon-wrap {
+      width: 80px; height: 80px;
+      background: rgba(245,197,24,0.12);
+      border: 2px solid rgba(245,197,24,0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 28px;
+      font-size: 2.2rem;
+    }
+
+    .benefit-num {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .benefit-title {
+      color: var(--white);
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.5;
+    }
+
+    /* ============================
+       HOW IT WORKS (cream-dark)
+    ============================ */
+    .howto-section { background: var(--cream-dark); }
+
+    .howto-intro {
+      max-width: 700px;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 60px;
+    }
+
+    .steps-track {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      position: relative;
+    }
+
+    /* Connecting line */
+    .steps-track::before {
+      content: '';
+      position: absolute;
+      top: 40px;
+      left: calc(12.5%);
+      right: calc(12.5%);
+      height: 2px;
+      background: linear-gradient(to right, var(--gold), var(--coral), var(--gold));
+      z-index: 0;
+    }
+
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 0 16px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-num {
+      width: 80px; height: 80px;
+      background: var(--navy);
+      border: 3px solid var(--gold);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gold);
+      margin-bottom: 22px;
+      box-shadow: 0 4px 20px rgba(22,36,56,0.25);
+    }
+
+    .step-label {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .step-desc {
+      font-size: 0.88rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ============================
+       MUSCLES / SVALY (navy)
+    ============================ */
+    .svaly-section { background: var(--navy-mid); }
+
+    .svaly-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .svaly-img-frame {
+      position: relative;
+    }
+
+    .svaly-img-frame::before {
+      content: '';
+      position: absolute;
+      inset: -14px;
+      border: 2px solid rgba(245,197,24,0.28);
+      border-radius: 24px;
+      pointer-events: none;
+    }
+
+    .svaly-img-frame::after {
+      content: '';
+      position: absolute;
+      inset: -7px;
+      border: 1px solid rgba(245,197,24,0.14);
+      border-radius: 18px;
+      pointer-events: none;
+    }
+
+    .svaly-img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+      box-shadow: 0 24px 72px rgba(0,0,0,0.45);
+    }
+
+    .svaly-text {
+      color: rgba(255,255,255,0.84);
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .svaly-text strong { color: var(--gold); font-weight: 700; }
+
+    .svaly-cta { margin-top: 40px; }
+
+    /* ============================
+       SOCIAL PROOF (cream)
+    ============================ */
+    .social-section { background: var(--cream); }
+
+    .social-body {
+      max-width: 800px;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.85;
+      margin-bottom: 52px;
+    }
+
+    .social-body strong { color: var(--navy); font-weight: 700; }
+
+    .videos-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 36px;
+      text-align: center;
+    }
+
+    .videos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .video-col {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-title {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 14px;
+      line-height: 1.4;
+      min-height: 2.8em;
+    }
+
+    .video-card {
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow-md);
+      background: var(--navy);
+    }
+
+    .video-ratio {
+      position: relative;
+      padding-bottom: 177.78%;
+      height: 0;
+      overflow: hidden;
+    }
+
+    .video-ratio iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* ============================
+       AUTHORS (navy)
+    ============================ */
+    .authors-section { background: var(--navy); }
+
+    .authors-layout {
+      display: grid;
+      grid-template-columns: 400px 1fr;
+      gap: 72px;
+      align-items: center;
+      margin-top: 52px;
+    }
+
+    .author-photo {
+      width: 100%;
+      border-radius: 20px;
+      display: block;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.45);
+    }
+
+    .author-copy {
+      color: rgba(255,255,255,0.84);
+      font-size: 1.05rem;
+      line-height: 1.85;
+    }
+
+    .author-copy strong { color: var(--gold); font-weight: 700; }
+
+    .author-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .badge {
+      background: rgba(245,197,24,0.12);
+      border: 1px solid rgba(245,197,24,0.28);
+      color: var(--gold);
+      padding: 8px 18px;
+      border-radius: 100px;
+      font-size: 0.88rem;
+      font-weight: 600;
+    }
+
+    /* ============================
+       FAQ (cream-dark)
+    ============================ */
+    .faq-section { background: var(--cream-dark); }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 52px auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    details {
+      background: var(--white);
+      border-radius: 16px;
+      border: 1px solid rgba(22,36,56,0.1);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: border-color 0.25s;
+    }
+
+    details[open] { border-color: var(--gold); }
+
+    summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 26px 32px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      cursor: pointer;
+      list-style: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    summary::-webkit-details-marker { display: none; }
+
+    .faq-chevron {
+      width: 34px; height: 34px;
+      flex-shrink: 0;
+      background: rgba(22,36,56,0.07);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.3s ease, background 0.25s;
+    }
+
+    details[open] .faq-chevron {
+      transform: rotate(180deg);
+      background: var(--gold);
+    }
+
+    .faq-chevron svg {
+      width: 16px; height: 16px;
+      stroke: var(--navy);
+      fill: none;
+      stroke-width: 2.5;
+    }
+
+    details[open] .faq-chevron svg { stroke: var(--black); }
+
+    .faq-body {
+      padding: 0 32px 26px;
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.75;
+      border-top: 1px solid rgba(22,36,56,0.07);
+      margin-top: 0;
+      padding-top: 20px;
+    }
+
+    /* ============================
+       FINAL CTA (navy)
+    ============================ */
+    .final-cta {
+      background: var(--navy);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .final-cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 60% 60% at 50% 50%, rgba(245,197,24,0.09) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .final-cta .section-inner { position: relative; z-index: 1; }
+
+    .final-h2 {
+      font-size: clamp(1.75rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.2;
+      margin-bottom: 24px;
+      letter-spacing: -0.02em;
+    }
+
+    .final-body {
+      font-size: 1.05rem;
+      color: rgba(255,255,255,0.72);
+      max-width: 560px;
+      margin: 0 auto 48px;
+      line-height: 1.8;
+    }
+
+    .urgency {
+      margin-top: 28px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.42);
+      font-style: italic;
+    }
+
+    /* ============================
+       FOOTER
+    ============================ */
+    .site-footer {
+      background: var(--black);
+      padding: 40px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand img {
+      width: 34px; height: 34px;
+      border-radius: 50%;
+    }
+
+    .footer-brand span {
+      color: var(--white);
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .footer-copy {
+      color: rgba(255,255,255,0.35);
+      font-size: 13px;
+    }
+
+    /* ============================
+       MODAL
+    ============================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(8,14,24,0.82);
+      backdrop-filter: blur(7px);
+      -webkit-backdrop-filter: blur(7px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open { display: flex; }
+
+    .modal-box {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 52px 44px 44px;
+      max-width: 490px;
+      width: 100%;
+      position: relative;
+      box-shadow: 0 40px 100px rgba(0,0,0,0.55);
+      animation: modal-pop 0.38s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+
+    @keyframes modal-pop {
+      from { opacity: 0; transform: scale(0.84) translateY(24px); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 18px; right: 18px;
+      width: 38px; height: 38px;
+      border: none;
+      background: rgba(22,36,56,0.08);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 20px;
+      line-height: 1;
+      color: var(--text);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .modal-close:hover { background: rgba(22,36,56,0.16); }
+
+    .modal-free {
+      display: inline-block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 5px 14px;
+      border-radius: 100px;
+      margin-bottom: 18px;
+      letter-spacing: 0.05em;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .modal-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
+    #smartemailing-form-container {
+      min-height: 130px;
+      border: 2px dashed rgba(22,36,56,0.14);
+      border-radius: 14px;
+      padding: 28px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+
+    /* ============================
+       SCROLL ANIMATIONS
+    ============================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Stagger siblings in grids */
+    .benefits-grid .fade-up:nth-child(2) { transition-delay: 0.12s; }
+    .benefits-grid .fade-up:nth-child(3) { transition-delay: 0.24s; }
+    .pain-cards   .fade-up:nth-child(2)  { transition-delay: 0.1s; }
+    .pain-cards   .fade-up:nth-child(3)  { transition-delay: 0.2s; }
+    .pain-cards   .fade-up:nth-child(4)  { transition-delay: 0.3s; }
+    .steps-track  .fade-up:nth-child(2)  { transition-delay: 0.1s; }
+    .steps-track  .fade-up:nth-child(3)  { transition-delay: 0.2s; }
+    .steps-track  .fade-up:nth-child(4)  { transition-delay: 0.3s; }
+    .videos-grid  .fade-up:nth-child(2)  { transition-delay: 0.12s; }
+    .videos-grid  .fade-up:nth-child(3)  { transition-delay: 0.24s; }
+    .refs-grid    .fade-up:nth-child(2)  { transition-delay: 0.08s; }
+    .refs-grid    .fade-up:nth-child(3)  { transition-delay: 0.16s; }
+    .refs-grid    .fade-up:nth-child(4)  { transition-delay: 0.24s; }
+    .refs-grid    .fade-up:nth-child(5)  { transition-delay: 0.08s; }
+    .refs-grid    .fade-up:nth-child(6)  { transition-delay: 0.16s; }
+    .refs-grid    .fade-up:nth-child(7)  { transition-delay: 0.24s; }
+    .refs-grid    .fade-up:nth-child(8)  { transition-delay: 0.08s; }
+    .refs-grid    .fade-up:nth-child(9)  { transition-delay: 0.16s; }
+    .refs-grid    .fade-up:nth-child(10) { transition-delay: 0.24s; }
+
+    /* ============================
+       REFERENCES GRID
+    ============================ */
+    .refs-label {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin: 64px 0 36px;
+      text-align: center;
+    }
+
+    .refs-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 28px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .ref-card {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      background: var(--white);
+      border-radius: 20px;
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ref-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .ref-img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+    }
+
+    .ref-body {
+      padding: 18px 16px 20px;
+    }
+
+    .ref-name {
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .ref-quote {
+      font-size: 0.83rem;
+      color: var(--muted);
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    @media (max-width: 1100px) {
+      .refs-grid { grid-template-columns: repeat(3, 1fr); max-width: 700px; }
+    }
+
+    @media (max-width: 700px) {
+      .refs-grid { grid-template-columns: repeat(2, 1fr); max-width: 480px; }
+    }
+
+    @media (max-width: 420px) {
+      .refs-grid { grid-template-columns: 1fr; max-width: 300px; }
+    }
+
+    /* ============================
+       RESPONSIVE
+    ============================ */
+    @media (max-width: 960px) {
+      .section { padding: 72px 28px; }
+
+      .pain-layout,
+      .svaly-layout,
+      .authors-layout {
+        grid-template-columns: 1fr;
+        gap: 48px;
+      }
+
+      .authors-layout { grid-template-columns: 1fr; }
+
+      .author-photo {
+        max-width: 420px;
+        margin: 0 auto;
+      }
+
+      .benefits-grid {
+        grid-template-columns: 1fr;
+        max-width: 480px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .steps-track {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+
+      .steps-track::before { display: none; }
+
+      .step {
+        flex-direction: row;
+        text-align: left;
+        gap: 24px;
+        align-items: flex-start;
+      }
+
+      .step-num { margin-bottom: 0; flex-shrink: 0; }
+
+      .videos-grid {
+        grid-template-columns: 1fr;
+        max-width: 300px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .hero {
+        padding: 64px 28px 80px;
+        min-height: auto;
+      }
+
+      .breath-rings {
+        opacity: 0.18;
+        right: -160px;
+      }
+
+      .header-tagline { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      body { font-size: 17px; }
+      .site-header { padding: 12px 20px; }
+      .modal-box { padding: 40px 24px 32px; }
+      .btn-cta { padding: 0 28px; font-size: 0.88rem; }
+      .summary { padding: 22px 24px; }
+      .faq-body { padding: 0 24px 22px; padding-top: 16px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ======= HEADER ======= -->
+  <header class="site-header">
+    <div class="header-left">
+      <img src="/image/Logo-stredni.png" alt="CoreRestart" class="header-logo">
+      <span class="header-name">CoreRestart</span>
+      <span class="online-badge">Online</span>
+    </div>
+    <span class="header-tagline">Pohyb, který funguje přirozeně</span>
+  </header>
+
+  <!-- ======= HERO ======= -->
+  <section class="hero">
+    <div class="breath-rings" aria-hidden="true">
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring"></div>
+      <div class="ring-center">🫁</div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-pill">
+        <span class="hero-pill-dot"></span>
+        Dvoudenní online akce &nbsp;·&nbsp; Zcela zdarma
+      </div>
+      <h1>Dechový víkend<br>pro seniory</h1>
+      <p class="hero-subline">Získejte aktivní a bezbolestný pohyb zpět.</p>
+      <p class="hero-body">Dvoudenní online akce zcela zdarma, která Vás od základu naučí hluboký brániční dech a ukáže Vám, jak ho využít v každodenním životě pro méně bolesti a více energie.</p>
+      <button class="btn-cta" onclick="openModal()">CHCI SE ZDARMA ZAREGISTROVAT</button>
+    </div>
+  </section>
+
+  <!-- ======= PAIN POINTS (cream) ======= -->
+  <section class="section pain-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--coral">Poznáváte se?</span>
+      <h2 class="section-h2 section-h2--dark fade-up">Trápí Vás bolesti zad, páteře nebo kloubů?</h2>
+      <span class="bar"></span>
+      <div class="pain-layout">
+        <div class="fade-up">
+          <p class="pain-body">
+            Cítíte, že se Vám pohyb rok od roku zhoršuje, i když se snažíte cvičit nebo protahovat? Možná jste ještě neslyšeli o tom, že <strong>příčina většiny těchto potíží nesouvisí s věkem ani s artrozou</strong>, ale s tím, jak Vaše tělo dýchá.
+          </p>
+          <blockquote class="pain-highlight">
+            A právě tohle Vám ukážeme na Dechovém víkendu zdarma.
+          </blockquote>
+        </div>
+        <div class="pain-cards">
+          <div class="pain-card fade-up">
+            <span class="pain-card-icon">🦴</span>
+            <span class="pain-card-text">Dlouhodobé bolesti zad a páteře</span>
+          </div>
+          <div class="pain-card fade-up">
+            <span class="pain-card-icon">🦵</span>
+            <span class="pain-card-text">Omezený pohyb kloubů a kolen</span>
+          </div>
+          <div class="pain-card fade-up">
+            <span class="pain-card-icon">😮‍💨</span>
+            <span class="pain-card-text">Únava a pocit nedostatku energie</span>
+          </div>
+          <div class="pain-card fade-up">
+            <span class="pain-card-icon">🚶</span>
+            <span class="pain-card-text">Pohyb, který jde rok od roku hůř</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= BENEFITS (navy) ======= -->
+  <section class="section benefits-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--gold">Co získáte</span>
+      <h2 class="section-h2 section-h2--white fade-up">Co o víkendu získáte?</h2>
+      <span class="bar"></span>
+      <div class="benefits-grid">
+        <div class="benefit-card fade-up">
+          <div class="benefit-icon-wrap">🫁</div>
+          <span class="benefit-num">KROK 1</span>
+          <p class="benefit-title">Co je hluboký brániční dech a proč ho Vaše tělo potřebuje</p>
+        </div>
+        <div class="benefit-card fade-up">
+          <div class="benefit-icon-wrap">🧘</div>
+          <span class="benefit-num">KROK 2</span>
+          <p class="benefit-title">Jak ho správně cvičit krok za krokem od úplného základu</p>
+        </div>
+        <div class="benefit-card fade-up">
+          <div class="benefit-icon-wrap">✨</div>
+          <span class="benefit-num">KROK 3</span>
+          <p class="benefit-title">Jak ho přirozeně zapojit do každodenního života pro méně bolesti</p>
+        </div>
+      </div>
+      <div style="text-align:center; margin-top:56px;">
+        <button class="btn-cta" onclick="openModal()">CHCI SE ZDARMA ZAREGISTROVAT</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= HOW IT WORKS (cream-dark) ======= -->
+  <section class="section howto-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--navy">Průběh</span>
+      <h2 class="section-h2 section-h2--dark fade-up">Jak víkend probíhá?</h2>
+      <span class="bar"></span>
+      <p class="howto-intro fade-up">
+        V sobotu a v neděli se Vám postupně zpřístupňují videa a obsah přesně v daný čas. Vše sledujete pohodlně z domova, ve svém tempu a bez jakýchkoliv technických nároků.
+      </p>
+      <div class="steps-track">
+        <div class="step fade-up">
+          <div class="step-num">1</div>
+          <div>
+            <div class="step-label">Zaregistrujte se</div>
+            <div class="step-desc">Stačí jméno a e-mail. Trvá méně než minutu.</div>
+          </div>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">2</div>
+          <div>
+            <div class="step-label">Dostanete pokyny</div>
+            <div class="step-desc">Pošleme Vám vše potřebné na e-mail před víkendem.</div>
+          </div>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">3</div>
+          <div>
+            <div class="step-label">Cvičíte z domova</div>
+            <div class="step-desc">V klidu a bez stresu, ve svém vlastním tempu.</div>
+          </div>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">4</div>
+          <div>
+            <div class="step-label">Změna nastane</div>
+            <div class="step-desc">Pocítíte rozdíl v pohybu i v každodenní energii.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= SVALY (navy-mid) ======= -->
+  <section class="section svaly-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--gold">Věda za metodou</span>
+      <h2 class="section-h2 section-h2--white fade-up">Podívejte se na tento obrázek,<br>který vysvětluje úplně všechno.</h2>
+      <span class="bar"></span>
+      <div class="svaly-layout">
+        <div class="svaly-img-frame fade-up">
+          <img src="/image/img-dech-senior/svaly.jpg" alt="Diagram svalů důležitých pro pohyb a dýchání" class="svaly-img">
+        </div>
+        <div class="svaly-text fade-up">
+          <p>
+            Pokud chcete získat zpět <strong>aktivní pohyb bez bolestí a inkontinence</strong>, toto jsou svaly na Vašem těle, které musí být aktivní a funkční.
+          </p>
+          <p style="margin-top:22px;">
+            Ta nejlepší cesta, jak toho docílit, je začít <strong>hlubokým bráničním dechem</strong>. A přesně to Vás naučíme o Dechovém víkendu pro seniory.
+          </p>
+          <p style="margin-top:22px; opacity:0.7;">
+            Registrace je zcela zdarma. Stačí kliknout na tlačítko níže, vyplnit jméno a e-mail a registrovat se.
+          </p>
+          <div class="svaly-cta">
+            <button class="btn-cta" onclick="openModal()">CHCI SE ZDARMA ZAREGISTROVAT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= SOCIAL PROOF (cream) ======= -->
+  <section class="section social-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--coral">Výsledky</span>
+      <h2 class="section-h2 section-h2--dark fade-up">Naše metoda cvičení už pomohla<br>tisícům lidí</h2>
+      <span class="bar"></span>
+      <p class="social-body fade-up">
+        Lidé, kteří s námi cvičí, se zbavili dlouhodobých bolestí zad a páteře, inkontinence, znovu se hýbou bez omezení a cítí se ve svém těle lépe než před lety. A přitom nezačali žádnou náročnou dřinou, ale právě tím, čemu budeme věnovat celý tento víkend. <strong>Správným dechem.</strong>
+      </p>
+      <p class="videos-label fade-up">Zde je pár příběhů našich klientů</p>
+      <div class="videos-grid">
+        <div class="video-col fade-up">
+          <p class="video-title">S jakými potížemi seniorům pomáháme?</p>
+          <div class="video-card">
+            <div class="video-ratio">
+              <iframe
+                src="https://www.youtube.com/embed/Y_pemHYa4aU"
+                title="S jakými potížemi seniorům pomáháme?"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+        <div class="video-col fade-up">
+          <p class="video-title">Jakých výsledků naši klienti dosahují?</p>
+          <div class="video-card">
+            <div class="video-ratio">
+              <iframe
+                src="https://www.youtube.com/embed/pMv2GwNdLSo"
+                title="Jakých výsledků naši klienti dosahují?"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+        <div class="video-col fade-up">
+          <p class="video-title">Co naši klienti vzkazují ostatním seniorům?</p>
+          <div class="video-card">
+            <div class="video-ratio">
+              <iframe
+                src="https://www.youtube.com/embed/St2ZJNZ5YuQ"
+                title="Co naši klienti vzkazují ostatním seniorům?"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+                loading="lazy">
+              </iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p class="refs-label fade-up">Co říkají naši klienti</p>
+      <div class="refs-grid">
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/dada.png" alt="Dáda" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Dáda</p>
+            <p class="ref-quote">„Jsem pohyblivější, nezadýchávám se a mám radost, že se cítím lépe."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/gabriela.png" alt="Gabriela" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Gabriela</p>
+            <p class="ref-quote">„Doporučuji každému, kdo chce změnit dýchání a držení těla."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/hana.png" alt="Hana" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Hana</p>
+            <p class="ref-quote">„Bolest zad se výrazně zmenšila a zpevnila jsem si břicho. Odkaz na program dávám i svým pacientům."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/ivca.png" alt="Ivča" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Ivča</p>
+            <p class="ref-quote">„Osvojila jsem si dýchání a začala jsem chodit narovnaná. Okolí si všimlo, že mám radost ze života."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/jana.jpg" alt="Jana" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Jana</p>
+            <p class="ref-quote">„Výsledky jsou opravdu vidět, toto cvičení můžu jen doporučit."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/jolanta.png" alt="Jolanta" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Jolanta</p>
+            <p class="ref-quote">„Naučíte se správně dýchat a budete mít krásné držení těla. Doporučuji všem!"</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/katerina.png" alt="Kateřina" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Kateřina</p>
+            <p class="ref-quote">„Naučila jsem se dýchat do boků, bolest zad začala ustupovat 4. den programu. Výsledek je znát fyzicky i opticky."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/lenka.png" alt="Lenka" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Lenka</p>
+            <p class="ref-quote">„Přestala mě trápit inkontinence, zatuhlé trapézy a migrény jsou taky pryč. Zároveň se nyní mohu volně nadechnout."</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/marta.png" alt="Marta" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Marta</p>
+            <p class="ref-quote">„Cvičení mi vrátilo spánek, odstranilo bolest zad a zpevnilo celé tělo. Doporučuji!"</p>
+          </div>
+        </div>
+        <div class="ref-card fade-up">
+          <img src="/image/img-dech-senior/reference/michaela.png" alt="Michaela" class="ref-img">
+          <div class="ref-body">
+            <p class="ref-name">Michaela</p>
+            <p class="ref-quote">„Naučila jsem se správně dýchat a držení těla se změnilo. Kurz je krásně zpracovaný."</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= AUTHORS (navy) ======= -->
+  <section class="section authors-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--gold">Autoři</span>
+      <h2 class="section-h2 section-h2--white fade-up">Kdo jsou autoři?</h2>
+      <span class="bar"></span>
+      <div class="authors-layout">
+        <div class="fade-up">
+          <img src="/image/My dva nové.png" alt="Filip a Tomáš Kuňákovi, pohyboví terapeuti" class="author-photo">
+        </div>
+        <div class="author-copy fade-up">
+          <p>
+            Jsme <strong>Filip a Tomáš Kuňákovi</strong>, pohyboví terapeuti s více než 15 lety praxe. Za tu dobu jsme pomohli tisícům klientů v našem FyzioStudiu i v online programech.
+          </p>
+          <p style="margin-top:22px;">
+            Naše metoda <strong>4 klíčů k funkčnímu tělu a pohybu</strong> vychází z toho, jak tělo přirozeně fungovalo, než ho moderní životní styl odnaučil správně se hýbat a dýchat.
+          </p>
+          <p style="margin-top:22px;">
+            A hluboký brániční dech je přesně ten <strong>první klíč</strong>, bez kterého vše ostatní funguje jen napůl.
+          </p>
+          <div class="author-badges">
+            <span class="badge">15+ let praxe</span>
+            <span class="badge">Tisíce klientů</span>
+            <span class="badge">FyzioStudio</span>
+            <span class="badge">Online programy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FAQ (cream-dark) ======= -->
+  <section class="section faq-section">
+    <div class="section-inner">
+      <span class="eyebrow eyebrow--navy" style="text-align:center; display:block;">Časté dotazy</span>
+      <h2 class="section-h2 section-h2--dark fade-up" style="text-align:center;">Časté dotazy našich klientů</h2>
+      <div style="display:flex; justify-content:center; margin-bottom:0;">
+        <span class="bar"></span>
+      </div>
+      <div class="faq-list">
+        <details class="fade-up">
+          <summary>
+            Musím být zdatný cvičenec?
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            Ne, tento víkend je určen pro úplné začátečníky i pro ty, kteří cvičí pravidelně. Přijďte přesně takoví, jací jste.
+          </div>
+        </details>
+        <details class="fade-up">
+          <summary>
+            Potřebuji nějaké vybavení?
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            Vůbec ne, stačí pohodlné oblečení a klidné místo doma. Nic jiného nepotřebujete.
+          </div>
+        </details>
+        <details class="fade-up">
+          <summary>
+            Zvládnu to technicky?
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            Ano, vše je jednoduché a my Vám přesně vysvětlíme, jak se ke každému videu dostat.
+          </div>
+        </details>
+        <details class="fade-up">
+          <summary>
+            Bude k dispozici záznam z celého víkendu?
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            Záznam z víkendu k dispozici nebude. Vše, co se během soboty a neděle naučíte, bude k dispozici do nedělní půlnoci.
+          </div>
+        </details>
+        <details class="fade-up">
+          <summary>
+            Mohu se víkendu zúčastnit přestože mám bolesti?
+            <span class="faq-chevron">
+              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </span>
+          </summary>
+          <div class="faq-body">
+            Určitě ano. To, co o víkendu budeme dělat, je první krok k vyřešení Vašich bolestí.
+          </div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ======= FINAL CTA (navy) ======= -->
+  <section class="section final-cta">
+    <div class="section-inner">
+      <h2 class="final-h2 fade-up">Rezervujte si místo ještě dnes.<br>Je to zcela zdarma.</h2>
+      <p class="final-body fade-up">
+        Registrace je zdarma a trvá jen minutu. Víkend probíhá pouze v tyto dva dny, takže si místo rezervujte ještě dnes.
+      </p>
+      <div class="fade-up">
+        <button class="btn-cta" onclick="openModal()">CHCI SE ZDARMA ZAREGISTROVAT</button>
+      </div>
+      <p class="urgency fade-up">⏳ Počet míst je omezen. Registrujte se, dokud je volno.</p>
+    </div>
+  </section>
+
+  <!-- ======= FOOTER ======= -->
+  <footer class="site-footer">
+    <div class="footer-brand">
+      <img src="/image/Logo-stredni.png" alt="CoreRestart">
+      <span>CoreRestart</span>
+    </div>
+    <p class="footer-copy">© 2026 CoreRestart · FyzioStudio · Pohyb, který funguje přirozeně</p>
+  </footer>
+
+  <!-- ======= MODAL ======= -->
+  <div class="modal-overlay" id="modal" role="dialog" aria-modal="true" aria-label="Registrace" onclick="handleOverlayClick(event)">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeModal()" aria-label="Zavřít">×</button>
+      <span class="modal-free">✓ Zcela zdarma</span>
+      <h2 class="modal-title">Rezervujte si své místo</h2>
+      <p class="modal-sub">Vyplňte své jméno a e-mail:</p>
+      <div id="smartemailing-form-container">
+        <!-- SmartEmailing form script -->
+        <script src="https://se-forms.cz/public/web-forms-v2/subscribe/11999-26wrhel26leilikzq8yfdhfvo42gaecs1k8uacevuxgq8nhsftqm182r3ip8ux0hoql9pdhvrfuaickmwze53gdplva45l9gl5x3" id="se-webformScriptLoader-11999-26wrhel26leilikzq8yfdhfvo42gaecs1k8uacevuxgq8nhsftqm182r3ip8ux0hoql9pdhvrfuaickmwze53gdplva45l9gl5x3" async defer></script>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ---- Modal ----
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function handleOverlayClick(e) {
+      if (e.target === document.getElementById('modal')) closeModal();
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ---- Scroll animations ----
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-up').forEach(function(el) {
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
