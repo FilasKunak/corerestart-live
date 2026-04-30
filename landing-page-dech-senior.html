@@ -1644,6 +1644,57 @@
     }
 
 
+    // ---- SmartEmailing button style override ----
+    function injectSeButtonStyle() {
+      var existing = document.getElementById('se-btn-override');
+      if (existing) existing.remove();
+      var style = document.createElement('style');
+      style.id = 'se-btn-override';
+      style.textContent = [
+        '#smartemailing-form-container button,',
+        '#smartemailing-form-container input[type="submit"] {',
+        '  background: #f5c518 !important;',
+        '  background-color: #f5c518 !important;',
+        '  color: #0f0f0f !important;',
+        '  border: none !important;',
+        '  border-radius: 10px !important;',
+        '  font-family: "Open Sans", sans-serif !important;',
+        '  font-size: 0.95rem !important;',
+        '  font-weight: 800 !important;',
+        '  padding: 0 44px !important;',
+        '  height: 60px !important;',
+        '  line-height: 60px !important;',
+        '  cursor: pointer !important;',
+        '  letter-spacing: 0.07em !important;',
+        '  text-transform: uppercase !important;',
+        '  box-shadow: 0 4px 24px rgba(245,197,24,0.38) !important;',
+        '  width: 100% !important;',
+        '  display: block !important;',
+        '  transition: background 0.22s ease, transform 0.22s ease, box-shadow 0.22s ease !important;',
+        '}',
+        '#smartemailing-form-container button:hover,',
+        '#smartemailing-form-container input[type="submit"]:hover {',
+        '  background: #ffd83a !important;',
+        '  background-color: #ffd83a !important;',
+        '  transform: translateY(-3px) !important;',
+        '  box-shadow: 0 10px 36px rgba(245,197,24,0.5) !important;',
+        '}'
+      ].join('\n');
+      document.head.appendChild(style);
+    }
+
+    injectSeButtonStyle();
+
+    new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        mutation.addedNodes.forEach(function(node) {
+          if (node.nodeType === 1 && node.tagName === 'STYLE' && node.id !== 'se-btn-override') {
+            setTimeout(injectSeButtonStyle, 0);
+          }
+        });
+      });
+    }).observe(document.head, { childList: true });
+
     // ---- Reference lightbox ----
     function openRef(src, alt) {
       var img = document.getElementById('refLightboxImg');
