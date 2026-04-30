@@ -1683,18 +1683,6 @@
       document.head.appendChild(style);
     }
 
-    function setSeButtonText() {
-      var container = document.getElementById('smartemailing-form-container');
-      if (!container) return;
-      container.querySelectorAll('button[type="submit"], input[type="submit"]').forEach(function(btn) {
-        if (btn.tagName === 'INPUT') {
-          btn.value = 'REZERVOVAT SI MÍSTO';
-        } else {
-          btn.textContent = 'REZERVOVAT SI MÍSTO';
-        }
-      });
-    }
-
     injectSeButtonStyle();
 
     new MutationObserver(function(mutations) {
@@ -1706,10 +1694,6 @@
         });
       });
     }).observe(document.head, { childList: true });
-
-    new MutationObserver(function() {
-      setSeButtonText();
-    }).observe(document.getElementById('smartemailing-form-container') || document.body, { childList: true, subtree: true });
 
     // ---- Reference lightbox ----
     function openRef(src, alt) {
