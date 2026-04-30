@@ -22,7 +22,13 @@ Test result at installation: 12/12 passed (4 tests × 3 browsers)
 ### Test files:
 - `tests/corerestart.spec.js` – hlavní test file (4 testy: homepage, form, livestream, no-timeline)
 - `tests/exkluzivni-nabidka.spec.js` – testy pro exkluzivni-nabidka.html (9 testů)
+- `tests/visual-check.spec.js` – vizuální screenshoty dechovy-vikend-pro-seniory + dekujeme-za-registraci-dech
 - `tests/screenshots/` – automatické screenshoty z každého spuštění
+
+### Pozor: fade-up animace ve full-page screenshotech
+`.fade-up` + IntersectionObserver se spouští pouze při skutečném scrollu v prohlížeči.
+Ve full-page Playwright screenshotech proto sekce uprostřed stránky vypadají prázdně (opacity: 0).
+Toto je správné chování — v prohlížeči se vše zobrazí při scrollu. Není to bug.
 
 ### Test history:
 | Datum | Soubor | Výsledek |
@@ -88,23 +94,31 @@ Je to čisté HTML/CSS/JS – žádné závislosti, žádný build process.
 
 ```
 CoreRestart-Live/
-├── index.html                – homepage (coming soon stránka, corerestart.live/)
-├── dekovaci-hlavni.html      – děkovací stránka (corerestart.live/dekujeme-za-registraci)
-├── exkluzivni-nabidka.html   – stránka s nabídkou 5 výzev (corerestart.live/exkluzivni-nabidka)
-├── vysílání-1.html           – fake livestream player (corerestart.live/vysilani-1)
-├── styles.css                – CSS pro vysílání-1.html
-├── script.js                 – JS pro vysílání-1.html
-├── vercel.json               – konfigurace Vercel + routy
-├── CLAUDE.md                 – tento soubor s instrukcemi
+├── index.html                        – homepage (coming soon, corerestart.live/)
+├── dekovaci-hlavni.html              – děkovací stránka po registraci SmartEmailing (corerestart.live/dekujeme-za-registraci)
+├── exkluzivni-nabidka.html           – nabídka 5 výzev pro FyzioKlub (corerestart.live/exkluzivni-nabidka)
+├── landing-page-dech-senior.html     – landing page Dechového víkendu (corerestart.live/dechovy-vikend-pro-seniory)
+├── dekovaci-dech-senior.html         – děkovací + upsell stránka po registraci na Dechový víkend (corerestart.live/dekujeme-za-registraci-dech)
+├── dekovaci-vip-vstup-dech-senior.html – děkovací stránka po zakoupení VIP vstupenky (corerestart.live/dekujeme-za-objednavku-vip-vstupenky)
+├── vysílání-1.html                   – fake livestream player (corerestart.live/vysilani-1)
+├── styles.css                        – CSS pro vysílání-1.html
+├── script.js                         – JS pro vysílání-1.html
+├── vercel.json                       – konfigurace Vercel + routy
+├── CLAUDE.md                         – tento soubor s instrukcemi
 ├── .gitignore
 ├── image/
-│   ├── Logo-stredni.png                    – kulaté logo CoreRestart
-│   ├── My dva nové.png                     – fotka Filipa a Tomáše
-│   └── img-exkluzivni-nabidka/            – produktové obrázky pro exkluzivni-nabidka.html
-│       ├── Transformační FyzioVýzva.png
-│       ├── FyzioVýzva pro krční páteř.png
-│       ├── FyzioVýzva pro seniory.png
-│       └── FyzioYóga 30+30.png
+│   ├── Logo-stredni.png                         – kulaté logo CoreRestart
+│   ├── My dva nové.png                          – fotka Filipa a Tomáše
+│   ├── img-dech-senior/
+│   │   ├── svaly.jpg                            – diagram svalů (sekce "věda za metodou")
+│   │   └── reference/                           – screenshoty FB referencí (10 klientů)
+│   │       ├── dada.png, gabriela.png, hana.png, ivca.png, jana.jpg
+│   │       ├── jolanta.png, katerina.png, lenka.png, marta.png, michaela.png
+│   └── img-exkluzivni-nabidka/                  – produktové obrázky pro exkluzivni-nabidka.html
+│       ├── fyziovyzva-transformacni.png
+│       ├── fyziovyzva-krcni-pater.png
+│       ├── fyziovyzva-seniory.png
+│       └── fyzioyoga-30-30.png
 ├── .claude/
 └── .vercel/
 ```
@@ -299,6 +313,90 @@ Vytvořena 18. dubna 2026. Stránka pro členy FyzioKlubu s nabídkou 5 cvičebn
 
 ---
 
+## Landing page Dechový víkend pro seniory (landing-page-dech-senior.html)
+
+Vytvořena 24. dubna 2026. Landing page pro dvoudenní online akci zdarma – Dechový víkend pro seniory.
+
+- **URL:** `corerestart.live/dechovy-vikend-pro-seniory` → route v `vercel.json`
+- **Soubor:** `landing-page-dech-senior.html`
+- **Design:** navy `#162438`, krémová `#faf6f0`, zlatá `#f5c518`, korálová `#e07a5f` – Open Sans (300–800)
+- **Cílová skupina:** senioři 60+, potíže s bolestmi zad, páteře, kloubů
+
+**Sekce stránky (v pořadí):**
+1. Header – černý, logo + ONLINE badge + tagline (sticky)
+2. Hero – navy bg, animované dýchací kruhy (CSS), velký nadpis, CTA tlačítko
+3. Pain points – krémová, 4 kartičky s bolestivými body
+4. Co získáte – navy, 3 benefit karty s ikonami
+5. Jak probíhá – krémová, 4kroková timeline
+6. Svaly – navy, diagram `/image/img-dech-senior/svaly.jpg` + text
+7. Sociální důkaz – krémová, text + 3 YouTube Shorts videa (9:16) s nadpisy
+8. Autoři – navy, foto `/image/My dva nové.png` + text o Filipovi a Tomášovi
+9. FAQ – krémová, accordion (4 otázky)
+10. Závěrečná CTA – navy, urgency
+11. Footer – černý
+
+**Formulář SmartEmailing:**
+- Pop-up modal s tlačítkem „CHCI SE ZDARMA ZAREGISTROVAT" (4× na stránce)
+- Modal title: „Rezervujte si své místo"
+- Script ID: `11999-26wrhel26leilikzq8yfdhfvo42gaecs1k8uacevuxgq8nhsftqm182r3ip8ux0hoql9pdhvrfuaickmwze53gdplva45l9gl5x3`
+- Vložen do `#smartemailing-form-container` v modalu
+
+**YouTube Shorts videa (embed formát):**
+- `https://www.youtube.com/embed/Y_pemHYa4aU` – „S jakými potížemi seniorům pomáháme?"
+- `https://www.youtube.com/embed/pMv2GwNdLSo` – „Jakých výsledků naši klienti dosahují?"
+- `https://www.youtube.com/embed/St2ZJNZ5YuQ` – „Co naši klienti vzkazují ostatním seniorům?"
+
+**FAQ otázky:**
+1. Musím být zdatný cvičenec?
+2. Potřebuji nějaké vybavení?
+3. Zvládnu to technicky?
+4. Bude k dispozici záznam z celého víkendu? (ne, obsah dostupný do nedělní půlnoci)
+5. Mohu se víkendu zúčastnit přestože mám bolesti? (ano, první krok k vyřešení bolestí)
+
+---
+
+## Děkovací + upsell stránka Dechový víkend (dekovaci-dech-senior.html)
+
+Vytvořena 30. dubna 2026. Zobrazí se po registraci na Dechový víkend pro seniory.
+SmartEmailing přesměruje na tuto URL po odeslání formuláře.
+
+- **URL:** `corerestart.live/dekujeme-za-registraci-dech`
+- **Soubor:** `dekovaci-dech-senior.html`
+- **Design:** stejný design systém jako landing-page-dech-senior.html (navy, krémová, zlatá)
+
+**Struktura stránky:**
+1. Success sekce (krémová) – zelená animovaná fajfka, „REGISTRACE DOKONČENA", badge „Níže na stránce pro Vás něco máme. Čtěte dál…"
+2. Bridge sekce (navy) – VIP pill, nadpis o jedinečné možnosti, popis VIP vstupenky
+3. Benefits sekce (cream-dark) – 4 benefit karty (záznam, MP3, doživotní přístup, 30denní garance)
+4. Pricing sekce (navy-mid, `padding-bottom: 0`) – přeškrtnutá cena, 297 Kč, badge „Tato nabídka je časově omezená", 30denní garance box
+5. FAPI formulář (bílé pozadí) – nadpis „Vyplňte objednávkový formulář" (35px od garance, 25px od formuláře), FAPI script, ikona 🔒 + „BEZPEČNÁ PLATBA"
+6. Footer
+
+**FAPI script ID:** `7fdb2f49-63d1-4d96-a118-4c672add3b11`
+```html
+<script type="text/javascript" src="https://form.fapi.cz/script.php?id=7fdb2f49-63d1-4d96-a118-4c672add3b11"></script>
+```
+
+**Pozor na spacing:** Pricing sekce má `padding-bottom: 0` (inline override), aby mezi 30denní garancí
+a nadpisem formuláře byl přesně 35px (nastaveno pomocí `margin-top: 35px` na nadpisu ve FAPI divu).
+
+---
+
+## Reference sekce (landing-page-dech-senior.html)
+
+10 klientských referencí jako screenshoty Facebookových příspěvků.
+
+**Umístění obrázků:** `/image/img-dech-senior/reference/` (ASCII názvy bez diakritiky)
+`dada.png, gabriela.png, hana.png, ivca.png, jana.jpg, jolanta.png, katerina.png, lenka.png, marta.png, michaela.png`
+
+**Vzor karet:**
+- Náhled: ořez horní části screenshotu (130px výška, `object-position: top left`) — ukazuje profilovou fotku a začátek textu
+- Jméno + zkrácený citát (3 řádky, `line-clamp`)
+- Kliknutím se otevře lightbox s celým screenshotem
+- Grid: 5 sloupců desktop → 3 → 2 → 1 mobil, `column-gap: 20px`, `row-gap: 40px`
+
+---
+
 ## Budoucí vylepšení (TODO)
 
 - [ ] Schovat VIDEO_URL do Vercel environment variable místo hardcoded v HTML
@@ -329,19 +427,23 @@ The app is now accessible on both:
 ## Routování (vercel.json)
 
 ```json
-{ "src": "/vysilani-1",               "dest": "/vysílání-1.html"         }
-{ "src": "/vysilani-1/",              "dest": "/vysílání-1.html"         }
-{ "src": "/dekujeme-za-registraci",   "dest": "/dekovaci-hlavni.html"    }
-{ "src": "/dekujeme-za-registraci/",  "dest": "/dekovaci-hlavni.html"    }
-{ "src": "/exkluzivni-nabidka",       "dest": "/exkluzivni-nabidka.html" }
-{ "src": "/exkluzivni-nabidka/",      "dest": "/exkluzivni-nabidka.html" }
-{ "src": "/",                         "dest": "/index.html"              }
+{ "src": "/vysilani-1",                         "dest": "/vysílání-1.html"                    }
+{ "src": "/dekujeme-za-registraci",             "dest": "/dekovaci-hlavni.html"               }
+{ "src": "/exkluzivni-nabidka",                 "dest": "/exkluzivni-nabidka.html"            }
+{ "src": "/dechovy-vikend-pro-seniory",         "dest": "/landing-page-dech-senior.html"      }
+{ "src": "/dekujeme-za-registraci-dech",        "dest": "/dekovaci-dech-senior.html"          }
+{ "src": "/dekujeme-za-objednavku-vip-vstupenky", "dest": "/dekovaci-vip-vstup-dech-senior.html" }
+{ "src": "/",                                   "dest": "/index.html"                         }
 ```
+(Každá route má i variantu s trailing slash `/` – viz vercel.json)
 
-- `corerestart.live/` → index.html (coming soon homepage)
-- `corerestart.live/vysilani-1` → vysílání-1.html (fake livestream player)
-- `corerestart.live/dekujeme-za-registraci` → dekovaci-hlavni.html (děkovací stránka po registraci)
-- `corerestart.live/exkluzivni-nabidka` → exkluzivni-nabidka.html (nabídka 5 výzev pro členy FyzioKlubu)
+- `corerestart.live/` → index.html
+- `corerestart.live/vysilani-1` → vysílání-1.html
+- `corerestart.live/dekujeme-za-registraci` → dekovaci-hlavni.html
+- `corerestart.live/exkluzivni-nabidka` → exkluzivni-nabidka.html
+- `corerestart.live/dechovy-vikend-pro-seniory` → landing-page-dech-senior.html
+- `corerestart.live/dekujeme-za-registraci-dech` → dekovaci-dech-senior.html
+- `corerestart.live/dekujeme-za-objednavku-vip-vstupenky` → dekovaci-vip-vstup-dech-senior.html
 
 ---
 
@@ -373,10 +475,40 @@ The app is now accessible on both:
 
 ## Known Issue: SmartEmailing form styling
 
-SmartEmailing (`web-forms-v2`) injektuje vlastní `<style>` tag dynamicky po načtení stránky.
-Tento tag přichází v DOM **po** našem inline CSS, takže i naše `!important` pravidla prohrávají.
-JavaScript `MutationObserver` + `setProperty('important')` byl vyzkoušen, ale SmartEmailing
-může styly znovu přepsat po každém re-renderu komponenty.
+SmartEmailing (`web-forms-v2`) injektuje vlastní `<style>` tag dynamicky po načtení stránky —
+**po** našem CSS, takže normální `!important` prohrávají.
 
-**Závěr:** Nespoléhat na přebíjení SmartEmailing stylů. Pokud je nutná plná kontrola
-nad designem formuláře, použít vlastní HTML formulář s fetch/XHR voláním na SmartEmailing API.
+**Funkční řešení (implementováno na landing-page-dech-senior.html):**
+Sledovat přidávání `<style>` tagů do `<head>` pomocí MutationObserver. Kdykoli SmartEmailing
+přidá svůj style, okamžitě za něj vložit náš override `<style id="se-btn-override">`.
+Náš tag je vždy poslední v kaskádě → vyhraje.
+
+```js
+function injectSeButtonStyle() {
+  var existing = document.getElementById('se-btn-override');
+  if (existing) existing.remove();
+  var style = document.createElement('style');
+  style.id = 'se-btn-override';
+  style.textContent = '#smartemailing-form-container button { background: #f5c518 !important; ... }';
+  document.head.appendChild(style);
+}
+injectSeButtonStyle();
+new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    mutation.addedNodes.forEach(function(node) {
+      if (node.nodeType === 1 && node.tagName === 'STYLE' && node.id !== 'se-btn-override') {
+        setTimeout(injectSeButtonStyle, 0);
+      }
+    });
+  });
+}).observe(document.head, { childList: true });
+```
+
+**Text tlačítka SmartEmailingu:** nelze spolehlivě změnit přes JS — SmartEmailing přepisuje
+DOM po každém re-renderu. Text nastavovat přímo v SmartEmailing adminu.
+
+**FAPI formulář:** FAPI tlačítko „DOKONČIT OBJEDNÁVKU" má vlastní fialový styl — nelze přebít
+stejnou technikou (FAPI generuje celý formulář jako iframe nebo shadow DOM).
+
+**Závěr pro design formulářů:** Pokud je nutná plná kontrola nad designem, použít vlastní
+HTML formulář s fetch/XHR na SmartEmailing API.
