@@ -8,6 +8,12 @@
     { "src": "/dekujeme-za-registraci/", "dest": "/dekovaci-hlavni.html" },
     { "src": "/exkluzivni-nabidka", "dest": "/exkluzivni-nabidka.html" },
     { "src": "/exkluzivni-nabidka/", "dest": "/exkluzivni-nabidka.html" },
+    { "src": "/dechovy-vikend-pro-seniory", "dest": "/landing-page-dech-senior.html" },
+    { "src": "/dechovy-vikend-pro-seniory/", "dest": "/landing-page-dech-senior.html" },
+    { "src": "/dekujeme-za-registraci-dech", "dest": "/dekovaci-dech-senior.html" },
+    { "src": "/dekujeme-za-registraci-dech/", "dest": "/dekovaci-dech-senior.html" },
+    { "src": "/dekujeme-za-objednavku-vip-vstupenky", "dest": "/dekovaci-vip-vstup-dech-senior.html" },
+    { "src": "/dekujeme-za-objednavku-vip-vstupenky/", "dest": "/dekovaci-vip-vstup-dech-senior.html" },
     { "src": "/", "dest": "/index.html" }
   ]
 }
