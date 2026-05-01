@@ -202,12 +202,17 @@
     }
 
     .hero-inner {
-      max-width: 900px;
+      max-width: 1200px;
       margin: 0 auto;
       position: relative;
       z-index: 1;
-      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
     }
+
+    .hero-text { }
 
     .hero-pill {
       display: inline-flex;
@@ -236,7 +241,7 @@
     }
 
     .hero h1 {
-      font-size: clamp(1.9rem, 4.5vw, 3.2rem);
+      font-size: clamp(1.9rem, 3.5vw, 3rem);
       font-weight: 800;
       color: var(--white);
       line-height: 1.15;
@@ -245,16 +250,15 @@
     }
 
     .hero-sub {
-      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      font-size: clamp(1rem, 1.6vw, 1.2rem);
       color: rgba(255,255,255,0.72);
       font-weight: 300;
-      margin-bottom: 52px;
       line-height: 1.7;
     }
 
+    .hero-video-col { }
+
     .video-wrap {
-      max-width: 800px;
-      margin: 0 auto;
       border-radius: 20px;
       overflow: hidden;
       box-shadow: 0 32px 80px rgba(0,0,0,0.5);
@@ -274,6 +278,15 @@
       width: 100%;
       height: 100%;
       border: 0;
+    }
+
+    @media (max-width: 900px) {
+      .hero-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        text-align: center;
+      }
+      .hero-pill { display: inline-flex; }
     }
 
     /* ============================
@@ -1021,21 +1034,25 @@
   <!-- ======= HERO ======= -->
   <section class="hero">
     <div class="hero-inner">
-      <div class="hero-pill">
-        <span class="hero-pill-dot"></span>
-        Dechový víkend pro seniory &nbsp;·&nbsp; Nástěnka
+      <div class="hero-text">
+        <div class="hero-pill">
+          <span class="hero-pill-dot"></span>
+          Dechový víkend pro seniory &nbsp;·&nbsp; Nástěnka
+        </div>
+        <h1>Vítejte na nástěnce<br>Dechového víkendu<br>pro seniory</h1>
+        <p class="hero-sub">Přehrajte si důležité uvítací video a zjistěte, co Vás zde čeká a nemine</p>
       </div>
-      <h1>Vítejte na nástěnce<br>Dechového víkendu<br>pro seniory</h1>
-      <p class="hero-sub">Přehrajte si důležité uvítací video a zjistěte, co Vás zde čeká a nemine</p>
-      <div class="video-wrap fade-up">
-        <div class="video-16-9">
-          <iframe
-            src="https://www.youtube.com/embed/PLACEHOLDER"
-            title="Uvítací video – Dechový víkend pro seniory"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-            loading="lazy">
-          </iframe>
+      <div class="hero-video-col fade-up">
+        <div class="video-wrap">
+          <div class="video-16-9">
+            <iframe
+              src="https://www.youtube.com/embed/PLACEHOLDER"
+              title="Uvítací video – Dechový víkend pro seniory"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
         </div>
       </div>
     </div>
