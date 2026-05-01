@@ -284,136 +284,105 @@
     .days-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 48px;
+      gap: 28px;
     }
 
     .day-card {
-      background: var(--white);
-      border-radius: 20px;
-      box-shadow: var(--shadow-sm);
-      border: 2px solid transparent;
-      cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      position: relative;
       overflow: hidden;
+      border-radius: 24px;
+      border: 2px solid rgba(22,36,56,0.10);
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+      transition: transform 0.38s cubic-bezier(0.2,0,0,1), box-shadow 0.38s ease, border-color 0.38s ease;
+      padding: 32px;
+      text-align: center;
     }
+
+    .day-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--navy);
+      transform: translateY(101%);
+      transition: transform 0.48s cubic-bezier(0.4,0,0.2,1);
+      z-index: 0;
+    }
+
+    .day-card:hover::after { transform: translateY(0); }
 
     .day-card:hover {
-      transform: translateY(-6px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-12px);
+      box-shadow: 0 28px 64px rgba(22,36,56,0.22);
+      border-color: var(--navy);
     }
 
-    .day-card.active {
-      border-color: var(--gold);
-      box-shadow: 0 8px 32px rgba(245,197,24,0.25);
-    }
-
-    .day-card-header {
-      padding: 32px 28px 24px;
+    .day-card-content {
+      position: relative;
+      z-index: 1;
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 20px;
+      gap: 10px;
+      pointer-events: none;
     }
 
-    .day-num {
-      width: 56px;
-      height: 56px;
-      background: var(--navy);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--gold);
-      flex-shrink: 0;
+    .day-card-icon {
+      font-size: 3.6rem;
+      line-height: 1;
+      transition: transform 0.38s cubic-bezier(0.34,1.56,0.64,1);
     }
 
-    .day-card.active .day-num {
-      background: var(--gold);
-      color: var(--navy);
-    }
+    .day-card:hover .day-card-icon { transform: scale(1.18); }
 
-    .day-info { flex: 1; }
-
-    .day-label {
-      font-size: 0.78rem;
+    .day-card-ordinal {
+      font-size: 0.72rem;
       font-weight: 700;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 4px;
+      color: var(--gold-dark);
+      transition: color 0.38s ease;
+      margin-bottom: -4px;
     }
 
-    .day-name {
-      font-size: 1.4rem;
+    .day-card:hover .day-card-ordinal { color: rgba(245,197,24,0.7); }
+
+    .day-card-name {
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
       font-weight: 800;
       color: var(--navy);
-      line-height: 1.2;
+      line-height: 1;
+      letter-spacing: -0.025em;
+      transition: color 0.38s ease;
     }
 
-    .day-card.active .day-name { color: var(--navy); }
+    .day-card:hover .day-card-name { color: var(--white); }
 
-    .day-arrow {
-      width: 36px;
-      height: 36px;
-      background: rgba(22,36,56,0.07);
-      border-radius: 50%;
-      display: flex;
+    .day-card-cta {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      transition: transform 0.3s ease, background 0.25s;
-      flex-shrink: 0;
+      gap: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-top: 6px;
+      transition: color 0.38s ease, gap 0.3s ease;
     }
 
-    .day-arrow svg {
-      width: 16px;
-      height: 16px;
-      stroke: var(--navy);
-      fill: none;
-      stroke-width: 2.5;
+    .day-card-cta-arrow {
+      display: inline-block;
       transition: transform 0.3s ease;
     }
 
-    .day-card.active .day-arrow {
-      background: var(--gold);
-      transform: rotate(0deg);
-    }
-
-    .day-card.active .day-arrow svg {
-      transform: rotate(180deg);
-    }
-
-    .day-content {
-      display: none;
-      padding: 0 28px 28px;
-      border-top: 1px solid rgba(22,36,56,0.08);
-      margin-top: 0;
-    }
-
-    .day-content.open { display: block; }
-
-    .day-content-inner {
-      padding-top: 22px;
-      font-size: 1rem;
-      color: var(--muted);
-      line-height: 1.75;
-    }
-
-    .day-placeholder {
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      background: rgba(245,197,24,0.08);
-      border: 1px dashed rgba(245,197,24,0.4);
-      border-radius: 12px;
-      padding: 18px 20px;
-      font-size: 0.92rem;
-      color: var(--navy);
-      font-weight: 600;
-    }
-
-    .day-placeholder-icon { font-size: 1.5rem; }
+    .day-card:hover .day-card-cta { color: var(--gold); gap: 10px; }
+    .day-card:hover .day-card-cta-arrow { transform: translateX(4px); }
 
     /* ============================
        VIP SECTION (navy)
@@ -710,38 +679,26 @@
     .days-section--navy .section-sub { color: rgba(255,255,255,0.65); }
 
     .days-section--navy .day-card {
-      background: rgba(255,255,255,0.055);
-      border-color: rgba(245,197,24,0.12);
+      background: rgba(255,255,255,0.06);
+      border-color: rgba(245,197,24,0.2);
+      box-shadow: none;
     }
+
+    .days-section--navy .day-card::after { background: var(--gold); }
 
     .days-section--navy .day-card:hover {
-      background: rgba(255,255,255,0.09);
-      border-color: rgba(245,197,24,0.3);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-    }
-
-    .days-section--navy .day-card.active {
-      background: rgba(245,197,24,0.08);
       border-color: var(--gold);
+      box-shadow: 0 28px 64px rgba(0,0,0,0.35);
     }
 
-    .days-section--navy .day-name { color: var(--white); }
-    .days-section--navy .day-card.active .day-name { color: var(--white); }
-    .days-section--navy .day-label { color: rgba(255,255,255,0.45); }
+    .days-section--navy .day-card-name { color: var(--white); }
+    .days-section--navy .day-card:hover .day-card-name { color: var(--navy); }
 
-    .days-section--navy .day-arrow { background: rgba(255,255,255,0.12); }
-    .days-section--navy .day-arrow svg { stroke: rgba(255,255,255,0.8); }
-    .days-section--navy .day-card.active .day-arrow { background: var(--gold); }
-    .days-section--navy .day-card.active .day-arrow svg { stroke: var(--navy); }
+    .days-section--navy .day-card-ordinal { color: rgba(245,197,24,0.75); }
+    .days-section--navy .day-card:hover .day-card-ordinal { color: rgba(22,36,56,0.7); }
 
-    .days-section--navy .day-content { border-top-color: rgba(255,255,255,0.1); }
-    .days-section--navy .day-content-inner { color: rgba(255,255,255,0.65); }
-
-    .days-section--navy .day-placeholder {
-      background: rgba(245,197,24,0.08);
-      border-color: rgba(245,197,24,0.3);
-      color: rgba(255,255,255,0.8);
-    }
+    .days-section--navy .day-card-cta { color: rgba(255,255,255,0.4); }
+    .days-section--navy .day-card:hover .day-card-cta { color: var(--navy); }
 
     /* ============================
        FOOTER
@@ -993,7 +950,8 @@
     ============================ */
     @media (max-width: 960px) {
       .section { padding: 72px 28px; }
-      .days-grid { grid-template-columns: 1fr; }
+      .days-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .days-grid .day-card:last-child { grid-column: 1 / -1; max-width: calc(50% - 10px); margin: 0 auto; width: 100%; }
       .videos-grid { grid-template-columns: 1fr; max-width: 300px; margin-left: auto; margin-right: auto; }
       .authors-layout { grid-template-columns: 1fr; gap: 48px; }
       .author-photo { max-width: 420px; margin: 0 auto; }
@@ -1011,6 +969,8 @@
       .hero { padding: 60px 24px 72px; }
       .modal-box { padding: 40px 24px 32px; }
       .btn-cta { padding: 0 28px; font-size: 0.88rem; }
+      .days-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
+      .days-grid .day-card:last-child { grid-column: auto; max-width: 100%; }
     }
 
     @media (max-width: 420px) {
@@ -1059,71 +1019,35 @@
       <span class="eyebrow eyebrow--navy">Program</span>
       <h2 class="section-h2 section-h2--dark fade-up">Jednotlivé dny víkendu</h2>
       <span class="bar"></span>
-      <p class="section-sub fade-up">Klikněte na příslušný den a zobrazí se Vám daný obsah</p>
+      <p class="section-sub fade-up">Klikněte na příslušný den a přejdete na jeho program</p>
       <div class="days-grid">
 
-        <div class="day-card fade-up" onclick="toggleDay('friday-top', this)">
-          <div class="day-card-header">
-            <div class="day-num">1</div>
-            <div class="day-info">
-              <div class="day-label">Den první</div>
-              <div class="day-name">Pátek</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">🌙</span>
+            <span class="day-card-ordinal">Den první</span>
+            <span class="day-card-name">Pátek</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="friday-top">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Pátek bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
-        <div class="day-card fade-up" onclick="toggleDay('saturday-top', this)">
-          <div class="day-card-header">
-            <div class="day-num">2</div>
-            <div class="day-info">
-              <div class="day-label">Den druhý</div>
-              <div class="day-name">Sobota</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">☀️</span>
+            <span class="day-card-ordinal">Den druhý</span>
+            <span class="day-card-name">Sobota</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="saturday-top">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Sobotu bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
-        <div class="day-card fade-up" onclick="toggleDay('sunday-top', this)">
-          <div class="day-card-header">
-            <div class="day-num">3</div>
-            <div class="day-info">
-              <div class="day-label">Den třetí</div>
-              <div class="day-name">Neděle</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">✨</span>
+            <span class="day-card-ordinal">Den třetí</span>
+            <span class="day-card-name">Neděle</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="sunday-top">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Neděli bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -1338,71 +1262,35 @@
       <span class="eyebrow eyebrow--gold">Program</span>
       <h2 class="section-h2 section-h2--white fade-up">Jednotlivé dny víkendu</h2>
       <span class="bar"></span>
-      <p class="section-sub section-sub--white fade-up">Klikněte na příslušný den a zobrazí se Vám daný obsah</p>
+      <p class="section-sub section-sub--white fade-up">Klikněte na příslušný den a přejdete na jeho program</p>
       <div class="days-grid">
 
-        <div class="day-card fade-up" onclick="toggleDay('friday-bot', this)">
-          <div class="day-card-header">
-            <div class="day-num">1</div>
-            <div class="day-info">
-              <div class="day-label">Den první</div>
-              <div class="day-name">Pátek</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">🌙</span>
+            <span class="day-card-ordinal">Den první</span>
+            <span class="day-card-name">Pátek</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="friday-bot">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Pátek bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
-        <div class="day-card fade-up" onclick="toggleDay('saturday-bot', this)">
-          <div class="day-card-header">
-            <div class="day-num">2</div>
-            <div class="day-info">
-              <div class="day-label">Den druhý</div>
-              <div class="day-name">Sobota</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">☀️</span>
+            <span class="day-card-ordinal">Den druhý</span>
+            <span class="day-card-name">Sobota</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="saturday-bot">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Sobotu bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
-        <div class="day-card fade-up" onclick="toggleDay('sunday-bot', this)">
-          <div class="day-card-header">
-            <div class="day-num">3</div>
-            <div class="day-info">
-              <div class="day-label">Den třetí</div>
-              <div class="day-name">Neděle</div>
-            </div>
-            <div class="day-arrow">
-              <svg viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
-            </div>
+        <a href="#" class="day-card fade-up">
+          <div class="day-card-content">
+            <span class="day-card-icon">✨</span>
+            <span class="day-card-ordinal">Den třetí</span>
+            <span class="day-card-name">Neděle</span>
+            <span class="day-card-cta">Přejít na program <span class="day-card-cta-arrow">→</span></span>
           </div>
-          <div class="day-content" id="sunday-bot">
-            <div class="day-content-inner">
-              <div class="day-placeholder">
-                <span class="day-placeholder-icon">🗓️</span>
-                <span>Obsah pro Neděli bude doplněn</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        </a>
 
       </div>
     </div>
@@ -1461,24 +1349,6 @@
   </div>
 
   <script>
-    // ---- Day cards toggle ----
-    function toggleDay(contentId, card) {
-      var content = document.getElementById(contentId);
-      var isOpen = content.classList.contains('open');
-      // Close all other cards in the same section
-      var section = card.closest('.days-grid');
-      section.querySelectorAll('.day-card').forEach(function(c) {
-        c.classList.remove('active');
-      });
-      section.querySelectorAll('.day-content').forEach(function(c) {
-        c.classList.remove('open');
-      });
-      if (!isOpen) {
-        content.classList.add('open');
-        card.classList.add('active');
-      }
-    }
-
     // ---- VIP Modal ----
     function openVipModal() {
       document.getElementById('vipModal').classList.add('open');
