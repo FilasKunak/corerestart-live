@@ -8,6 +8,8 @@
     { "src": "/dekujeme-za-registraci/", "dest": "/dekovaci-hlavni.html" },
     { "src": "/exkluzivni-nabidka", "dest": "/exkluzivni-nabidka.html" },
     { "src": "/exkluzivni-nabidka/", "dest": "/exkluzivni-nabidka.html" },
+    { "src": "/nastenka-dechovy-vikend", "dest": "/nastenka-dech-senior.html" },
+    { "src": "/nastenka-dechovy-vikend/", "dest": "/nastenka-dech-senior.html" },
     { "src": "/", "dest": "/index.html" }
   ]
 }
