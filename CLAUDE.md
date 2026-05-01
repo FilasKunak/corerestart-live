@@ -100,6 +100,7 @@ CoreRestart-Live/
 ├── landing-page-dech-senior.html     – landing page Dechového víkendu (corerestart.live/dechovy-vikend-pro-seniory)
 ├── dekovaci-dech-senior.html         – děkovací + upsell stránka po registraci na Dechový víkend (corerestart.live/dekujeme-za-registraci-dech)
 ├── dekovaci-vip-vstup-dech-senior.html – děkovací stránka po zakoupení VIP vstupenky (corerestart.live/dekujeme-za-objednavku-vip-vstupenky)
+├── nastenka-dech-senior.html         – nástěnka víkendu s programem, VIP modalem, referencemi (corerestart.live/nastenka-dechovy-vikend)
 ├── vysílání-1.html                   – fake livestream player (corerestart.live/vysilani-1)
 ├── styles.css                        – CSS pro vysílání-1.html
 ├── script.js                         – JS pro vysílání-1.html
@@ -325,6 +326,9 @@ Vytvořena 24. dubna 2026. Landing page pro dvoudenní online akci zdarma – De
 **Sekce stránky (v pořadí):**
 1. Header – černý, logo + ONLINE badge + tagline (sticky)
 2. Hero – navy bg, animované dýchací kruhy (CSS), velký nadpis, CTA tlačítko
+   - Emoji plíce 🫁 je **16rem** (velká, dominantní), animace `breathe-lung` (scale 0.88–1.10, 7s cyklus)
+   - Zlatý glow (`filter: drop-shadow`) pulsuje s dechem
+   - Prsteny okolo: 320–740px, animace `breathe` (scale 0.92–1.08)
 3. Pain points – krémová, 4 kartičky s bolestivými body
 4. Co získáte – navy, 3 benefit karty s ikonami
 5. Jak probíhá – krémová, 4kroková timeline
@@ -397,11 +401,48 @@ a nadpisem formuláře byl přesně 35px (nastaveno pomocí `margin-top: 35px` n
 
 ---
 
+## Nástěnka Dechového víkendu (nastenka-dech-senior.html)
+
+Vytvořena 1. května 2026. Centrální rozcestník pro účastníky Dechového víkendu.
+
+- **URL:** `corerestart.live/nastenka-dechovy-vikend` → route v `vercel.json`
+- **Soubor:** `nastenka-dech-senior.html`
+- **Design:** stejný design systém jako landing-page-dech-senior.html (navy, krémová, zlatá)
+
+**Sekce stránky (v pořadí):**
+1. Header – sticky, černý (stejný jako ostatní stránky)
+2. Hero – navy, **2-sloupcový layout**: text vlevo, YouTube embed vpravo
+   - YouTube src: `https://www.youtube.com/embed/PLACEHOLDER` ← doplnit reálné ID
+3. Dny víkendu (krémová) – 3 čtvercové proklikové karty (`aspect-ratio: 1/1`)
+4. VIP vstupenka (navy) – CTA tlačítko → popup modal s výhodami VIP + FAPI formulář
+5. Reference (krémová) – 3 YouTube Shorts videa + 10 obrázkových referencí s lightboxem
+6. PDF průvodce (navy-mid) – tlačítko ke stažení `/pdf/pruvodce-pro-seniory.pdf` ← soubor chybí
+7. Autoři (krémová) – foto + text (stejný jako landing page)
+8. Dny víkendu (navy) – opakování karet pro konec stránky
+9. Footer – černý
+
+**Denní karty – design:**
+- Čtvercové (`aspect-ratio: 1/1`), proklikové `<a href="#">`
+- Hover efekt: navy pozadí najíždí zdola (cream sekce) / zlaté pozadí (navy sekce)
+- Obsah: ikona + „Den první/druhý/třetí" + název dne + subtitle + pill „VSTOUPIT" s SVG ikonou
+- Pátek: 🌙 „Přípravná lekce" | Sobota: ☀️ „Nácvik dechu" | Neděle: ✨ „Dech během dne"
+- **URL odkazy na dny zatím `href="#"` — doplnit až budou hotovy stránky pro jednotlivé dny**
+
+**VIP modal:**
+- FAPI script ID: `7fdb2f49-63d1-4d96-a118-4c672add3b11` (stejný jako dekovaci-dech-senior.html)
+- 4 výhody: záznam, MP3, doživotní přístup, 30denní garance
+- Zavření: tlačítko ×, klik mimo, Escape
+
+---
+
 ## Budoucí vylepšení (TODO)
 
 - [ ] Schovat VIDEO_URL do Vercel environment variable místo hardcoded v HTML
       (volat `/api/video-url` endpoint – URL nebude viditelná ve zdrojovém kódu)
 - [ ] Přidat produktový obrázek k FyzioVýzva pro chodidla, kolena a kyčle (podzim 2026)
+- [ ] nastenka-dech-senior.html: doplnit YouTube ID uvítacího videa (nahradit PLACEHOLDER)
+- [ ] nastenka-dech-senior.html: nahrát PDF soubor do `/pdf/pruvodce-pro-seniory.pdf`
+- [ ] nastenka-dech-senior.html: doplnit href URL pro karty Pátek / Sobota / Neděle
 
 ---
 
@@ -433,6 +474,7 @@ The app is now accessible on both:
 { "src": "/dechovy-vikend-pro-seniory",         "dest": "/landing-page-dech-senior.html"      }
 { "src": "/dekujeme-za-registraci-dech",        "dest": "/dekovaci-dech-senior.html"          }
 { "src": "/dekujeme-za-objednavku-vip-vstupenky", "dest": "/dekovaci-vip-vstup-dech-senior.html" }
+{ "src": "/nastenka-dechovy-vikend",            "dest": "/nastenka-dech-senior.html"          }
 { "src": "/",                                   "dest": "/index.html"                         }
 ```
 (Každá route má i variantu s trailing slash `/` – viz vercel.json)
@@ -444,6 +486,7 @@ The app is now accessible on both:
 - `corerestart.live/dechovy-vikend-pro-seniory` → landing-page-dech-senior.html
 - `corerestart.live/dekujeme-za-registraci-dech` → dekovaci-dech-senior.html
 - `corerestart.live/dekujeme-za-objednavku-vip-vstupenky` → dekovaci-vip-vstup-dech-senior.html
+- `corerestart.live/nastenka-dechovy-vikend` → nastenka-dech-senior.html
 
 ---
 
